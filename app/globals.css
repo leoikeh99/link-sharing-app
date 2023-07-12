@@ -28,6 +28,12 @@
   --fw-bold: 700;
 }
 
+@media (min-width: 33.75em) {
+  :root {
+    --fs-heading: var(--fs-xl);
+  }
+}
+
 /* Box sizing rules */
 *,
 *::before,

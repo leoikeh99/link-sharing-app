@@ -6,6 +6,10 @@ export const AuthLayoutWrapper = styled.div`
   min-height: 100dvh;
   display: grid;
   padding-block: 2rem;
+
+  @media (min-width: 33.75em) {
+    place-items: center;
+  }
 `;
 
 export const AuthContainer = styled.div`
@@ -13,12 +17,23 @@ export const AuthContainer = styled.div`
   grid-auto-rows: max-content;
   gap: 4.47rem;
   width: 100%;
-  max-width: min(29.7rem, 84vw);
+  max-width: min(29.75rem, 84vw);
   margin-inline: auto;
+
+  @media (min-width: 33.75em) {
+    gap: 3.19rem;
+
+    & > img {
+      margin-inline: auto;
+    }
+  }
 `;
 
 export const AuthBox = styled.div`
-  // background: var(--bg-sub);
+  @media (min-width: 33.75em) {
+    background: var(--bg-sub);
+    padding: 2.5rem;
+  }
 `;
 
 export const Question = styled.div`

@@ -9,13 +9,13 @@ import {
   FormControlCover,
   FormField,
   FormMessage,
-  FormSubmit,
   Label,
 } from "@/app/styles/FormStyles";
 import EmailIcon from "@/assets/images/icon-email.svg";
 import PasswordIcon from "@/assets/images/icon-password.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { Message, Submit } from "@radix-ui/react-form";
 
 export default function Login() {
   return (
@@ -25,33 +25,41 @@ export default function Login() {
 
       <Form $spacing="1.5">
         <FormField name="email">
-          <Label>Email address</Label>
+          <Label htmlFor="email">Email address</Label>
           <FormControlCover>
             <Image src={EmailIcon} alt="email icon" />
             <FormControl
               type="email"
+              name="email"
               required
               placeholder="e.g. alex@email.com"
             />
           </FormControlCover>
-          <FormMessage match="valueMissing">Can't be empty</FormMessage>
-          <FormMessage match="typeMismatch">Invalid email</FormMessage>
+          <Message match="valueMissing" asChild>
+            <FormMessage>Can't be empty</FormMessage>
+          </Message>
+          <Message match="typeMismatch" asChild>
+            <FormMessage>Invalid email</FormMessage>
+          </Message>
         </FormField>
         <FormField name="password">
-          <Label>Password</Label>
+          <Label htmlFor="password">Password</Label>
           <FormControlCover>
             <Image src={PasswordIcon} alt="password icon" />
             <FormControl
               type="password"
+              name="password"
               required
               placeholder="Enter your password"
             />
           </FormControlCover>
-          <FormMessage match="valueMissing">Please check again</FormMessage>
+          <Message match="valueMissing" asChild>
+            <FormMessage>Please check again</FormMessage>
+          </Message>
         </FormField>
-        <FormSubmit asChild>
+        <Submit asChild>
           <Button>Login</Button>
-        </FormSubmit>
+        </Submit>
       </Form>
       <Question>
         <Text $talign="center">Don’t have an account?</Text>

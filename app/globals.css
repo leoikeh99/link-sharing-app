@@ -1,6 +1,7 @@
 :root {
   --clr-primary-100: hsla(252, 100%, 96%, 1);
   --clr-primary-200: hsla(252, 100%, 84%, 1);
+  --clr-primary-300: hsla(252, 100%, 62%, 0.25);
   --clr-primary-400: hsla(252, 100%, 62%, 1);
   --clr-accent-400: hsla(0, 100%, 61%, 1);
   --clr-neutral-100: hsla(0, 0%, 100%, 1);

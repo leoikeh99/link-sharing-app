@@ -21,24 +21,38 @@ export const Label = styled(RadixForm.Label)`
 `;
 
 export const FormControl = styled(RadixForm.FormControl)`
+  flex: 1;
   display: block;
+  padding-block: 0.75rem;
+  padding-right: 1rem;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const FormControlCover = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding-left: 1rem;
   border: 1px solid var(--clr-neutral-300);
   border-radius: 0.5rem;
+  overflow: hidden;
 
   &:has(input[data-invalid="true"]) {
     border-color: var(--clr-accent-400);
   }
+
+  &:has(input[data-valid="true"]):focus-within {
+    outline: 1px solid var(--clr-primary-400);
+    box-shadow: 0px 0px 32px 0px var(--clr-primary-300);
+  }
 `;
 
 export const FormMessage = styled(RadixForm.FormMessage)`
+  width: fit-content;
   display: block;
   color: var(--clr-accent-400);
   font-size: var(--fs-sm);
@@ -46,6 +60,11 @@ export const FormMessage = styled(RadixForm.FormMessage)`
   position: absolute;
   top: 0;
   right: 0;
+
+  @media (min-width: 33.75em) {
+    right: 1rem;
+    position: relative;
+  }
 `;
 
 export const FormField = styled(RadixForm.FormField)`

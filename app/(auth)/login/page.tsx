@@ -34,13 +34,13 @@ export default function Login() {
               required
               placeholder="e.g. alex@email.com"
             />
+            <Message match="valueMissing" asChild>
+              <FormMessage>Can't be empty</FormMessage>
+            </Message>
+            <Message match="typeMismatch" asChild>
+              <FormMessage>Invalid email</FormMessage>
+            </Message>
           </FormControlCover>
-          <Message match="valueMissing" asChild>
-            <FormMessage>Can't be empty</FormMessage>
-          </Message>
-          <Message match="typeMismatch" asChild>
-            <FormMessage>Invalid email</FormMessage>
-          </Message>
         </FormField>
         <FormField name="password">
           <Label htmlFor="password">Password</Label>
@@ -52,10 +52,10 @@ export default function Login() {
               required
               placeholder="Enter your password"
             />
+            <Message match="valueMissing" asChild>
+              <FormMessage>Please check again</FormMessage>
+            </Message>
           </FormControlCover>
-          <Message match="valueMissing" asChild>
-            <FormMessage>Please check again</FormMessage>
-          </Message>
         </FormField>
         <Submit asChild>
           <Button>Login</Button>

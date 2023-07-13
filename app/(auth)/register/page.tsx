@@ -34,13 +34,13 @@ export default function Register() {
               required
               placeholder="e.g. alex@email.com"
             />
+            <Message match="valueMissing" asChild>
+              <FormMessage>Can't be empty</FormMessage>
+            </Message>
+            <Message match="typeMismatch" asChild>
+              <FormMessage>Invalid email</FormMessage>
+            </Message>
           </FormControlCover>
-          <Message match="valueMissing" asChild>
-            <FormMessage>Can't be empty</FormMessage>
-          </Message>
-          <Message match="typeMismatch" asChild>
-            <FormMessage>Invalid email</FormMessage>
-          </Message>
         </FormField>
         <FormField name="password">
           <Label htmlFor="password">Password</Label>
@@ -52,13 +52,15 @@ export default function Register() {
               required
               placeholder="At least 8 characters"
             />
+            <Message match="valueMissing" asChild>
+              <FormMessage>Please check again</FormMessage>
+            </Message>
+            <Message
+              match={(value, formData) => value.trim().length < 7}
+              asChild>
+              <FormMessage>Please check again</FormMessage>
+            </Message>
           </FormControlCover>
-          <Message match="valueMissing" asChild>
-            <FormMessage>Please check again</FormMessage>
-          </Message>
-          <Message match={(value, formData) => value.trim().length < 7} asChild>
-            <FormMessage>Please check again</FormMessage>
-          </Message>
         </FormField>
         <FormField name="confirmPassword">
           <Label htmlFor="confirmPassword">Confirm password</Label>
@@ -70,13 +72,16 @@ export default function Register() {
               required
               placeholder="At least 8 characters"
             />
+            <Message match="valueMissing" asChild>
+              <FormMessage>Please check again</FormMessage>
+            </Message>
+            <Message
+              match={(value, formData) => value.trim().length < 7}
+              asChild>
+              <FormMessage>Please check again</FormMessage>
+            </Message>
           </FormControlCover>
-          <Message match="valueMissing" asChild>
-            <FormMessage>Please check again</FormMessage>
-          </Message>
-          <Message match={(value, formData) => value.trim().length < 7} asChild>
-            <FormMessage>Please check again</FormMessage>
-          </Message>
+
           <Text $size="sm" $mt="1.5">
             Password must contain at least 8 characters
           </Text>

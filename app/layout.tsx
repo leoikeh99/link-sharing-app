@@ -18,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={instrument_sans.className}>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <main>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </main>
       </body>
     </html>
   );

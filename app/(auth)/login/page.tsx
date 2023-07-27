@@ -11,8 +11,6 @@ import {
   FormMessage,
   Label,
 } from "@/app/styles/FormStyles";
-import EmailIcon from "@/assets/images/icon-email.svg";
-import PasswordIcon from "@/assets/images/icon-password.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { Message, Submit } from "@radix-ui/react-form";
@@ -27,7 +25,12 @@ export default function Login() {
         <FormField name="email">
           <Label htmlFor="email">Email address</Label>
           <FormControlCover>
-            <Image src={EmailIcon} alt="email icon" />
+            <Image
+              src="/assets/images/icon-email.svg"
+              alt="email icon"
+              height={16}
+              width={16}
+            />
             <FormControl
               type="email"
               name="email"
@@ -45,7 +48,12 @@ export default function Login() {
         <FormField name="password">
           <Label htmlFor="password">Password</Label>
           <FormControlCover>
-            <Image src={PasswordIcon} alt="password icon" />
+            <Image
+              src="/assets/images/icon-password.svg"
+              alt="password icon"
+              height={16}
+              width={16}
+            />
             <FormControl
               type="password"
               name="password"

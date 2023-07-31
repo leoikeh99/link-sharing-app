@@ -7,14 +7,11 @@ import AddedLink from "./AddedLink";
 
 type Props = {};
 
-const Wrapper = styled.div`
+const NoLinksWrapper = styled.div`
   padding: 1.25rem;
   margin-top: 1.5rem;
   background-color: var(--clr-neutral-200);
   border-radius: 0.75rem;
-`;
-
-const NoLinksWrapper = styled.div`
   display: grid;
   justify-items: center;
   gap: 1.5rem;
@@ -44,10 +41,8 @@ const NoLinks = () => (
 const Links = (props: Props) => {
   return (
     <>
-      <Wrapper>
-        {/* <NoLinks />  */}
-        <AddedLink />
-      </Wrapper>
+      {/* <NoLinks /> */}
+      <AddedLink />
     </>
   );
 };

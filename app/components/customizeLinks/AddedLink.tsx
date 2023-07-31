@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FlexGroup, SpaceOut } from "@/app/styles/LayoutStyles";
 import DnDIcon from "@/assets/images/icon-drag-and-drop.svg";
@@ -14,6 +15,13 @@ import { Message } from "@radix-ui/react-form";
 import { Text } from "@/app/styles/TypographyStyles";
 import { styled } from "styled-components";
 
+const Wrapper = styled.div`
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  background-color: var(--clr-neutral-200);
+  border-radius: 0.75rem;
+`;
+
 const RemoveBtn = styled.button`
   font-size: var(--fs-base);
   font-weight: var(--fw-regukar);
@@ -25,8 +33,7 @@ const RemoveBtn = styled.button`
 
 const AddedLink = () => {
   return (
-    <>
-      {" "}
+    <Wrapper>
       <SpaceOut>
         <FlexGroup $gap="0.5">
           <DnDIcon /> <Text $weight="bold">Link #1</Text>
@@ -57,7 +64,7 @@ const AddedLink = () => {
           </Message>
         </FormControlCover>
       </FormField>
-    </>
+    </Wrapper>
   );
 };
 

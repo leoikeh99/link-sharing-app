@@ -25,6 +25,7 @@ export const Label = styled(RadixForm.Label)<{ $mt?: string }>`
 `;
 
 export const FormControl = styled(RadixForm.FormControl)`
+  width: 100%;
   flex: 1;
   display: block;
   padding-block: 0.75rem;

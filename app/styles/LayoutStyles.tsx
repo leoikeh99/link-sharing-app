@@ -53,3 +53,15 @@ export const SaveButtonContainer = styled.div`
     }
   }
 `;
+
+export const ProfileGridFlow = styled.div<{ $initialGap: string }>`
+  display: grid;
+  gap: ${({ $initialGap }) => $initialGap}rem;
+
+  @media (min-width: 48em) {
+    grid-template-areas: "label input";
+    grid-auto-columns: 15rem auto;
+    align-items: center;
+    gap: 1rem;
+  }
+`;

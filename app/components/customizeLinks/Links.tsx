@@ -8,6 +8,9 @@ import AddedLink from "./AddedLink";
 type Props = {};
 
 const NoLinksWrapper = styled.div`
+  min-height: 21.1rem;
+  place-items: center;
+  align-content: center;
   padding: 1.25rem;
   margin-top: 1.5rem;
   background-color: var(--clr-neutral-200);
@@ -23,6 +26,14 @@ const NoLinksWrapper = styled.div`
   h2,
   p {
     text-align: center;
+    max-width: 30.5rem;
+  }
+
+  @media (min-width: 33.75em) {
+    min-height: 29.3rem;
+    .header-icon {
+      transform: scale(1);
+    }
   }
 `;
 
@@ -30,7 +41,7 @@ const NoLinks = () => (
   <NoLinksWrapper>
     <LinksHeaderImage className="header-icon" />
     <SubHeading>Let’s get you started</SubHeading>
-    <Text $mb="1.5">
+    <Text>
       Use the “Add new link” button to get started. Once you have more than one
       link, you can reorder and edit them. We’re here to help you share your
       profiles with everyone!
@@ -41,8 +52,8 @@ const NoLinks = () => (
 const Links = (props: Props) => {
   return (
     <>
-      {/* <NoLinks /> */}
-      <AddedLink />
+      <NoLinks />
+      {/* <AddedLink /> */}
     </>
   );
 };

@@ -32,7 +32,7 @@ const CustomizeLinks = (props: Props) => {
         <Links />
       </HomeFormsTopWrapper>
       <SaveButtonContainer>
-        <Button $wFull>Save</Button>
+        <Button disabled>Save</Button>
       </SaveButtonContainer>
     </Form>
   );

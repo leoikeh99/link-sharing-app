@@ -126,6 +126,10 @@ export const IconLink = styled(Link)`
   background-color: transparent;
   text-decoration: none;
 
+  span {
+    display: none;
+  }
+
   &:hover,
   &:focus {
     background-color: var(--clr-primary-100);
@@ -133,6 +137,16 @@ export const IconLink = styled(Link)`
 
   @media (min-width: 33.75em) {
     padding-inline: 1.69rem;
+  }
+
+  @media (min-width: 48em) {
+    span {
+      display: inline;
+    }
+
+    img {
+      display: none;
+    }
   }
 `;
 

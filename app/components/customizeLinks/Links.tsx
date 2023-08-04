@@ -52,8 +52,8 @@ const NoLinks = () => (
 const Links = (props: Props) => {
   return (
     <>
-      <NoLinks />
-      {/* <AddedLink /> */}
+      {/* <NoLinks /> */}
+      <AddedLink />
     </>
   );
 };

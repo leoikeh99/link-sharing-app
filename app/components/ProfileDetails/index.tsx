@@ -1,6 +1,7 @@
 "use client";
 import {
   HomeFormsTopWrapper,
+  HomeGrid,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
@@ -10,12 +11,13 @@ import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/app/styles/FormStyles";
+import MobilePreview from "../MobilePreview";
 
 type Props = {};
 
 const Form = styled(Root)`
   background-color: var(--bg-sub);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 `;
 
 const ProfileDetails = (props: Props) => {

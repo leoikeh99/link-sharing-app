@@ -22,6 +22,8 @@ import {
   ScrollDownButton,
   Trigger,
 } from "@/app/styles/FormStyles";
+import LinkIcon from "../ui/LinkIcon";
+import { SocialLinks } from "@/app/constants";
 
 const Select = () => (
   <RadixSelect.Root value="github" name="selectLink">
@@ -38,13 +40,15 @@ const Select = () => (
         </RadixSelect.ScrollUpButton>
         <RadixSelect.Viewport>
           <RadixSelect.Group>
-            <SelectItem value="github">
-              <FlexGroup $gap="0.75">
-                <GitHubIcon />
-                <span>GitHub</span>
-              </FlexGroup>
-            </SelectItem>
-            <SelectItem value="frontendMentor">
+            {SocialLinks.map((link) => (
+              <SelectItem value={link.id} key={link.id}>
+                <FlexGroup $gap="0.75">
+                  <LinkIcon iconKey={link.id} />
+                  <span>{link.name}</span>
+                </FlexGroup>
+              </SelectItem>
+            ))}
+            {/* <SelectItem value="frontendMentor">
               <FlexGroup $gap="0.75">
                 <FEMIcon />
                 <span>Frontend Mentor</span>
@@ -98,7 +102,7 @@ const Select = () => (
                 <span>FreeCodecamp</span>
               </FlexGroup>
             </SelectItem>
-            <SelectItem value="gitLab">
+            <SelectItem value="gitlab">
               <FlexGroup $gap="0.75">
                 <GitLabIcon />
                 <span>GitLab</span>
@@ -115,7 +119,7 @@ const Select = () => (
                 <StackOverflowIcon />
                 <span>Stack Overflow</span>
               </FlexGroup>
-            </SelectItem>
+            </SelectItem> */}
           </RadixSelect.Group>
         </RadixSelect.Viewport>
         <ScrollDownButton>

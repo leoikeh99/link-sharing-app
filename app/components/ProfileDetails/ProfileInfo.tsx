@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     margin-bottom: 0.75rem;
   }
 
-  @media (min-width: 48em) {
+  @media (min-width: 45em) {
     label {
       font-size: var(--fs-base);
     }

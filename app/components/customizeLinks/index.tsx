@@ -5,16 +5,18 @@ import { Button } from "../../styles/FormStyles";
 import Links from "./Links";
 import {
   HomeFormsTopWrapper,
+  HomeGrid,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
 import { Root } from "@radix-ui/react-form";
 import { styled } from "styled-components";
+import MobilePreview from "../MobilePreview";
 
 type Props = {};
 
 const Form = styled(Root)`
   background-color: var(--bg-sub);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 `;
 
 const CustomizeLinks = (props: Props) => {

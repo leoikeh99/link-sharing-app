@@ -17,7 +17,7 @@ const UploadContainer = styled.div`
   display: grid;
   gap: 1.5rem;
 
-  @media (min-width: 48em) {
+  @media (min-width: 45em) {
     grid-template-columns: auto auto;
     align-items: center;
   }

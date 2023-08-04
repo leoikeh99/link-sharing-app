@@ -53,8 +53,8 @@ export const FormControlCover = styled.div`
     border-color: var(--clr-accent-400);
   }
 
-  &:has(input[data-valid="true"]):focus-within {
-    outline: 1px solid var(--clr-primary-400);
+  &:has(input):focus-within {
+    border-color: var(--clr-primary-400);
     box-shadow: 0px 0px 32px 0px var(--clr-primary-300);
   }
 `;

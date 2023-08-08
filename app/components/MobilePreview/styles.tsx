@@ -62,8 +62,8 @@ export const NoAvatar = styled.div`
   margin-bottom: 1.56rem;
 `;
 
-export const Name = styled.p<{ $value: string | null }>`
-  font-size: 1.125rem;
+export const Name = styled.p<{ $value: string | null; $bigText?: boolean }>`
+  font-size: ${({ $bigText }) => ($bigText ? "2rem" : "1.125rem")};
   font-weight: var(--fw-semi-bold);
   color: var(--clr-neutral-700);
   line-height: 150%;
@@ -73,8 +73,8 @@ export const Name = styled.p<{ $value: string | null }>`
   ${({ $value }) => !$value && "border-radius: 6.5rem"};
 `;
 
-export const Email = styled.p<{ $value: string | null }>`
-  font-size: 0.875rem;
+export const Email = styled.p<{ $value: string | null; $bigText?: boolean }>`
+  font-size: ${({ $bigText }) => ($bigText ? "1rem" : "0.875rem")};
   color: var(--clr-neutral-400);
   line-height: 150%;
   ${({ $value }) => !$value && "background-color: var(--clr-neutral-350)"};
@@ -87,13 +87,18 @@ export const Links = styled.div`
   gap: 1.25rem;
 `;
 
-export const SocialLink = styled(Link)<{ $bg: string }>`
+export const SocialLink = styled.a<{ $bg: string; $bigText?: boolean }>`
   display: block;
   padding: 1rem;
   border-radius: 0.5rem;
   color: var(--clr-neutral-100);
   background-color: ${({ $bg }) => $bg};
   text-decoration: none;
+
+  span {
+    font-size: ${({ $bigText }) =>
+      $bigText ? "1rem" : " var(--fs-social-link)"};
+  }
 
   svg path {
     fill: var(--clr-neutral-100);

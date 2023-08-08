@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
 import { styled } from "styled-components";
@@ -15,13 +16,15 @@ import {
   UserInfo,
 } from "./styles";
 
-type Props = {};
+type Props = {
+  bigText?: boolean;
+};
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-const UserProfile = (props: Props) => {
+const UserProfile = ({ bigText }: Props) => {
   return (
     <Wrapper>
       <UserInfo>
@@ -32,8 +35,12 @@ const UserProfile = (props: Props) => {
           alt="avatar"
         />
         {/* <NoAvatar /> */}
-        <Name $value={"Ben Wright"}>Ben Wright</Name>
-        <Email $value={"ben@example.com"}>ben@example.com</Email>
+        <Name $value={"Ben Wright"} $bigText={bigText}>
+          Ben Wright
+        </Name>
+        <Email $value={"ben@example.com"} $bigText={bigText}>
+          ben@example.com
+        </Email>
       </UserInfo>
       <Links>
         <SocialLink
@@ -41,6 +48,7 @@ const UserProfile = (props: Props) => {
             SocialLinks.find((val) => val.id === "github")?.color ||
             "hsla(0, 0%, 10%, 1)"
           }
+          $bigText={bigText}
           href="/"
           target="_blank">
           <SpaceOut>

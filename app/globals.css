@@ -24,6 +24,7 @@
   --fs-sm: 0.75rem;
   --fs-heading: var(--fs-lg);
   --fs-text: var(--fs-base);
+  --fs-social-link: var(--fs-base);
 
   --fw-regular: 400;
   --fw-semi-bold: 600;
@@ -33,6 +34,7 @@
 @media (min-width: 33.75em) {
   :root {
     --fs-heading: var(--fs-xl);
+    --fs-social-link: var(--fs-sm);
   }
 }
 

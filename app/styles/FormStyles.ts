@@ -116,6 +116,39 @@ export const Button = styled.button<ButtonProps>`
   }
 `;
 
+export const BtnLink = styled(Link)<ButtonProps>`
+  padding: 0.69rem 1.69rem;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semi-bold);
+  ${({ $wFull }) => $wFull && "width:100%;"}
+  border: ${({ $variant }) =>
+    $variant === "outlined" ? "1px solid var(--clr-primary-400)" : "none"};
+  border-radius: 0.5rem;
+  color: ${({ $variant }) =>
+    $variant === "outlined"
+      ? "var(--clr-primary-400)"
+      : "var(--clr-neutral-100)"};
+  background-color: ${({ $variant }) =>
+    $variant === "outlined" ? "transparent" : "var(--clr-primary-400)"};
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover:enabled,
+  &:focus:enabled {
+    background-color: ${({ $variant }) =>
+      $variant === "outlined"
+        ? "var(--clr-primary-100)"
+        : "var(--clr-primary-200)"};
+  }
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+`;
+
 export const IconLink = styled(Link)`
   display: inline-block;
   padding: 0.69rem 1rem;

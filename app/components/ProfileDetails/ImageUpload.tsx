@@ -23,10 +23,11 @@ const UploadContainer = styled.div`
   }
 `;
 
-const UploadBtn = styled.button`
+const UploadBtn = styled.div`
   min-height: 12rem;
   min-width: 12rem;
   max-width: 12rem;
+  position: relative;
   display: grid;
   place-items: center;
   align-content: center;
@@ -36,6 +37,15 @@ const UploadBtn = styled.button`
   background-color: var(--clr-primary-100);
   border-radius: 0.75rem;
   border: none;
+`;
+
+const FileInput = styled.input`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 12rem;
+  opacity: 0;
   cursor: pointer;
 `;
 
@@ -46,6 +56,7 @@ const ImageUpload = (props: Props) => {
         <Text>Profile picture</Text>
         <UploadContainer>
           <UploadBtn>
+            <FileInput type="file" name="avatar" id="avatar" />
             <ImageIcon />+ Upload Image
           </UploadBtn>
           <Text $size="sm">

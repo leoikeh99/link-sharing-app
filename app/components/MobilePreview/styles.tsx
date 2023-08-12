@@ -95,6 +95,11 @@ export const SocialLink = styled.a<{ $bg: string; $bigText?: boolean }>`
   background-color: ${({ $bg }) => $bg};
   text-decoration: none;
 
+  &:hover,
+  &:focus {
+    opacity: 0.75;
+  }
+
   span {
     font-size: ${({ $bigText }) =>
       $bigText ? "1rem" : " var(--fs-social-link)"};

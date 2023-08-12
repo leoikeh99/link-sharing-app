@@ -14,8 +14,7 @@ export const HeaderContent = styled.div`
   background-color: var(--bg-sub);
   padding: 1rem 1.5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.5rem;
   border-radius: 0.75rem;
 
   button,
@@ -24,23 +23,18 @@ export const HeaderContent = styled.div`
     font-size: 0.875rem;
   }
 
-  @media (min-width: 37.5em) {
-    button,
-    a {
-      padding: 0.69rem 1.69rem;
-    }
-  }
-
-  @media (min-width: 37.5em) {
-    button,
-    a {
-      font-size: var(--fs-base);
-    }
+  @media (min-width: 21em) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
   @media (min-width: 37.5em) {
     display: flex;
     justify-content: space-between;
+    a {
+      padding: 0.69rem 1.69rem;
+      font-size: var(--fs-base);
+    }
   }
 `;
 
@@ -50,6 +44,10 @@ export const MainContent = styled.div`
   margin-inline: auto;
   padding-top: 3.75rem;
   border-radius: 1.5rem;
+
+  @media (max-width: 17.5em) {
+    padding: 3.75rem 1.25rem 0 1.25rem;
+  }
 
   @media (min-width: 37.5em) {
     margin-top: -8rem;

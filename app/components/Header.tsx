@@ -107,7 +107,7 @@ const Header = () => {
               <span>Profile Details</span>
             </LinkItem>
           </FlexGroup>
-          <IconLink href="/" aria-label="Preview">
+          <IconLink href="/preview/1" aria-label="Preview">
             <Image
               src="/assets/images/icon-preview-header.svg"
               alt="preview"

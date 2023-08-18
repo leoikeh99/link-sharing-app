@@ -33,6 +33,7 @@ export const AuthBox = styled.div`
   @media (min-width: 33.75em) {
     background: var(--bg-sub);
     padding: 2.5rem;
+    border-radius: 0.5rem;
   }
 `;
 

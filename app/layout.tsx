@@ -2,6 +2,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
+import AuthProvider from "./context/AuthProvider";
 
 const instrument_sans = Instrument_Sans({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={instrument_sans.className}>
         <main>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <AuthProvider>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </AuthProvider>
         </main>
       </body>
     </html>

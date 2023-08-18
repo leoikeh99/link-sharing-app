@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { AuthBox, Question } from "../styles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
 import {
@@ -14,14 +14,26 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Message, Submit } from "@radix-ui/react-form";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
+  const [details, setDetails] = useState({ email: "", password: "" });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setDetails({ ...details, [e.target.name]: e.target.value });
+
+  const login = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const value = await signIn("credentials", { redirect: false, ...details });
+    console.log(value);
+  };
+
   return (
     <AuthBox>
       <MainHeading $mb="0.5">Login</MainHeading>
       <Text $mb="2.5">Add your details below to get back into the app</Text>
 
-      <Form $spacing="1.5">
+      <Form $spacing="1.5" onSubmit={login}>
         <FormField name="email">
           <Label htmlFor="email">Email address</Label>
           <FormControlCover>
@@ -36,6 +48,8 @@ export default function Login() {
               name="email"
               required
               placeholder="e.g. alex@email.com"
+              value={details.email}
+              onChange={onChange}
             />
             <Message match="valueMissing" asChild>
               <FormMessage>Can't be empty</FormMessage>
@@ -59,6 +73,8 @@ export default function Login() {
               name="password"
               required
               placeholder="Enter your password"
+              value={details.password}
+              onChange={onChange}
             />
             <Message match="valueMissing" asChild>
               <FormMessage>Please check again</FormMessage>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { AuthBox, Question } from "../styles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
 import {
@@ -14,14 +14,53 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Message, Submit } from "@radix-ui/react-form";
+import Loading from "react-loading";
+import axios from "axios";
+import Alert from "@/app/components/Alert";
 
 export default function Register() {
+  const [details, setDetails] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | false>(false);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setDetails((val) => {
+      return { ...val, [e.target.name]: e.target.value };
+    });
+
+  const clearError = () => setError(false);
+
+  const register = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    await axios
+      .post("/api/auth/register", details, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res: any) => {
+        console.log(res.data);
+      })
+      .catch((error) => setError(error.response.data.message));
+
+    setLoading(false);
+  };
+
   return (
     <AuthBox>
       <MainHeading $mb="0.5">Create account</MainHeading>
       <Text $mb="2.5">Let’s get you started sharing your links!</Text>
-
-      <Form $spacing="1.5">
+      <Form $spacing="1.5" onSubmit={register}>
+        <Alert
+          type="danger"
+          message={error ? error : ""}
+          isOpen={error}
+          close={clearError}
+        />
         <FormField name="email">
           <Label htmlFor="email">Email address</Label>
           <FormControlCover>
@@ -34,6 +73,8 @@ export default function Register() {
             <FormControl
               type="email"
               name="email"
+              value={details.email}
+              onChange={onChange}
               required
               placeholder="e.g. alex@email.com"
             />
@@ -57,6 +98,8 @@ export default function Register() {
             <FormControl
               type="password"
               name="password"
+              value={details.password}
+              onChange={onChange}
               required
               placeholder="At least 8 characters"
             />
@@ -82,6 +125,8 @@ export default function Register() {
             <FormControl
               type="password"
               name="confirmPassword"
+              value={details.confirmPassword}
+              onChange={onChange}
               required
               placeholder="At least 8 characters"
             />
@@ -93,6 +138,13 @@ export default function Register() {
               asChild>
               <FormMessage>Please check again</FormMessage>
             </Message>
+            <Message
+              match={(value, formData) =>
+                value.trim().length >= 7 && value != details.password
+              }
+              asChild>
+              <FormMessage>Password mismatch</FormMessage>
+            </Message>
           </FormControlCover>
 
           <Text $size="sm" $mt="1.5">
@@ -100,7 +152,18 @@ export default function Register() {
           </Text>
         </FormField>
         <Submit asChild>
-          <Button>Create new account</Button>
+          <Button disabled={loading}>
+            {!loading ? (
+              "Create new account"
+            ) : (
+              <Loading
+                type="spin"
+                height={23}
+                width={23}
+                color="var(--clr-neutral-100)"
+              />
+            )}
+          </Button>
         </Submit>
       </Form>
       <Question>

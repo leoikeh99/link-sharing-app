@@ -12,7 +12,7 @@ type ButtonProps = {
 
 export const Form = styled(RadixForm.Root)<{ $spacing?: string }>`
   display: grid;
-  ${({ $spacing }) => $spacing && `gap:${$spacing}rem;`}
+  ${({ $spacing }) => $spacing && `gap:${$spacing}rem;`};
 `;
 
 export const Label = styled(RadixForm.Label)<{ $mt?: string }>`
@@ -86,6 +86,8 @@ export const FormField = styled(RadixForm.FormField)`
 export const FormSubmit = styled(RadixForm.FormSubmit)``;
 
 export const Button = styled.button<ButtonProps>`
+  display: flex;
+  justify-content: center;
   padding: 0.69rem 1.69rem;
   font-size: var(--fs-base);
   font-weight: var(--fw-semi-bold);
@@ -100,9 +102,10 @@ export const Button = styled.button<ButtonProps>`
   background-color: ${({ $variant }) =>
     $variant === "outlined" ? "transparent" : "var(--clr-primary-400)"};
   cursor: pointer;
+  text-align: center;
 
   &:hover:enabled,
-  &:focus:enabled {
+  &:active {
     background-color: ${({ $variant }) =>
       $variant === "outlined"
         ? "var(--clr-primary-100)"

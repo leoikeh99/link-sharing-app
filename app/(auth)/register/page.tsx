@@ -17,6 +17,8 @@ import { Message, Submit } from "@radix-ui/react-form";
 import Loading from "react-loading";
 import axios from "axios";
 import Alert from "@/app/components/Alert";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [details, setDetails] = useState({
@@ -26,6 +28,7 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | false>(false);
+  const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setDetails((val) => {
@@ -42,8 +45,14 @@ export default function Register() {
       .post("/api/auth/register", details, {
         headers: { "Content-Type": "application/json" },
       })
-      .then((res: any) => {
-        console.log(res.data);
+      .then(async (res: any) => {
+        const { email, password } = details;
+        const value = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+        if (value) router.push("/");
       })
       .catch((error) => setError(error.response.data.message));
 

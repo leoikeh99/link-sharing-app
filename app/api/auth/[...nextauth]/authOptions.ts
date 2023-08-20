@@ -40,7 +40,7 @@ export const options: NextAuthOptions = {
           .findOne({ email: email.toLowerCase() });
         if (!user) throw new Error("Invalid Credentials");
 
-        const checkPass = bcrypt.compare(password, user.password);
+        const checkPass = await bcrypt.compare(password, user.password);
         if (!checkPass) throw new Error("Invalid Credentials");
 
         return { ...user, id: user._id.toString() };

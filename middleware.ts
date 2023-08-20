@@ -1,4 +1,3 @@
-// export { default } from "next-auth/middleware";
+export { default } from "next-auth/middleware";
 
-// export const config = { matcher: ["/"] };
-export default function mid() {}
+export const config = { matcher: ["/", "/profile"] };

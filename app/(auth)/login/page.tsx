@@ -15,17 +15,34 @@ import Image from "next/image";
 import Link from "next/link";
 import { Message, Submit } from "@radix-ui/react-form";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Alert from "@/app/components/Alert";
+import Loading from "react-loading";
 
 export default function Login() {
   const [details, setDetails] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | false>(false);
+  const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setDetails({ ...details, [e.target.name]: e.target.value });
 
+  const clearError = () => setError(false);
+
   const login = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
     const value = await signIn("credentials", { redirect: false, ...details });
-    console.log(value);
+    if (!value) {
+      setLoading(false);
+      setError("Something went wrong, try again");
+      return;
+    }
+    if (!value.error) router.push("/");
+    if (value.error) setError(value.error);
+    setLoading(false);
   };
 
   return (
@@ -34,6 +51,12 @@ export default function Login() {
       <Text $mb="2.5">Add your details below to get back into the app</Text>
 
       <Form $spacing="1.5" onSubmit={login}>
+        <Alert
+          type="danger"
+          message={error ? error : ""}
+          isOpen={error}
+          close={clearError}
+        />
         <FormField name="email">
           <Label htmlFor="email">Email address</Label>
           <FormControlCover>
@@ -82,7 +105,18 @@ export default function Login() {
           </FormControlCover>
         </FormField>
         <Submit asChild>
-          <Button>Login</Button>
+          <Button disabled={loading}>
+            {!loading ? (
+              "Login"
+            ) : (
+              <Loading
+                type="spin"
+                height={23}
+                width={23}
+                color="var(--clr-neutral-100)"
+              />
+            )}
+          </Button>
         </Submit>
       </Form>
       <Question>

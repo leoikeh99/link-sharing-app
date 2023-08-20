@@ -1,19 +1,26 @@
 "use client";
-import React, { useState } from "react";
-import DangerIcon from "@/assets/images/icon-error.svg";
+import React from "react";
 import CloseIcon from "@/assets/images/icon-close.svg";
+import {
+  CheckCircledIcon,
+  InfoCircledIcon,
+  ExclamationTriangleIcon,
+  CrossCircledIcon,
+} from "@radix-ui/react-icons";
 import { styled } from "styled-components";
 import { FlexGroup, SpaceOut } from "@/app/styles/LayoutStyles";
 
+type AlertTypes = "success" | "danger" | "warning" | "info";
+
 type Props = {
-  type: "success" | "danger" | "warning" | "info";
+  type: AlertTypes;
   message: string;
   isOpen: string | boolean;
   close: () => void;
 };
 
 const Wrapper = styled.div<{
-  $type: "success" | "danger" | "warning" | "info";
+  $type: AlertTypes;
 }>`
   background-color: ${({ $type }) => colors[$type].light};
   border: 1px solid ${({ $type }) => colors[$type].dark};
@@ -47,10 +54,10 @@ const Alert = ({ type, message, isOpen, close }: Props) => {
   return (
     <>
       {isOpen && (
-        <Wrapper $type={type}>
+        <Wrapper $type={type} aria-live="polite">
           <SpaceOut>
             <FlexGroup $gap="0.5">
-              <DangerIcon />
+              {icons[type]}
               <p>{message}</p>
             </FlexGroup>
             <CloseBtn type="button" onClick={close}>
@@ -66,11 +73,15 @@ const Alert = ({ type, message, isOpen, close }: Props) => {
 export default Alert;
 
 const colors = {
-  danger: {
-    light: "#fff2f0",
-    dark: "#ffccc7",
-  },
-  success: { light: "", dark: "" },
-  warning: { light: "", dark: "" },
-  info: { light: "", dark: "" },
+  danger: { light: "#fff2f0", dark: "#ffccc7" },
+  success: { light: "#f6ffed", dark: "#b7eb8f" },
+  warning: { light: "#fffbe6", dark: "#ffe58f" },
+  info: { light: "#e6f4ff", dark: "#91caff" },
+};
+
+const icons = {
+  success: <CheckCircledIcon color="#52c41a" />,
+  danger: <CrossCircledIcon color="#ff4d4f" />,
+  info: <InfoCircledIcon color="#1677ff" />,
+  warning: <ExclamationTriangleIcon color="#faad14" />,
 };

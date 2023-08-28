@@ -1,13 +1,26 @@
 import MobilePreview from "@/app/components/MobilePreview";
 import ProfileDetails from "@/app/components/ProfileDetails";
+import { UserProvider } from "@/app/context/UserContext";
 import { HomeGrid } from "@/app/styles/LayoutStyles";
 import React from "react";
 
-export default function Profile() {
+const data = {
+  userInfo: {
+    firstName: "Wazza",
+    lastName: "Ikeh",
+    displayEmail: "leoikeh99@gmail.com",
+  },
+  links: [],
+};
+console.log(data);
+
+export default async function Profile() {
   return (
-    <HomeGrid>
-      <MobilePreview />
-      <ProfileDetails />
-    </HomeGrid>
+    <UserProvider data={data}>
+      <HomeGrid>
+        <MobilePreview />
+        <ProfileDetails />
+      </HomeGrid>
+    </UserProvider>
   );
 }

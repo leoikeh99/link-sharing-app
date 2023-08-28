@@ -12,3 +12,18 @@ type Socials =
   | "youtube"
   | "facebook"
   | "freeCodeCamp";
+
+type UserInfo = {
+  firstName: string;
+  lastName: string;
+  displayEmail: string;
+};
+
+type UserLink = {
+  id: string;
+  platform: Socials | null;
+  url: string;
+  order: number;
+  new?: true;
+  updated?: true;
+};

@@ -1,16 +1,15 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { MainHeading, Text } from "../../styles/TypographyStyles";
 import { Button } from "../../styles/FormStyles";
 import Links from "./Links";
 import {
   HomeFormsTopWrapper,
-  HomeGrid,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
 import { Root } from "@radix-ui/react-form";
 import { styled } from "styled-components";
-import MobilePreview from "../MobilePreview";
+import UserContext from "@/app/context/UserContext";
 
 type Props = {};
 
@@ -20,6 +19,7 @@ const Form = styled(Root)`
 `;
 
 const CustomizeLinks = (props: Props) => {
+  const { addLink } = useContext(UserContext);
   return (
     <Form>
       <HomeFormsTopWrapper>
@@ -28,7 +28,7 @@ const CustomizeLinks = (props: Props) => {
           Add/edit/remove links below and then share all your profiles with the
           world!
         </Text>
-        <Button $variant="outlined" $wFull type="button">
+        <Button $variant="outlined" $wFull type="button" onClick={addLink}>
           + Add new link
         </Button>
         <Links />

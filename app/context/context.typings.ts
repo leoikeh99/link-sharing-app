@@ -1,4 +1,6 @@
 type UserContextState = {
-  name: string;
-  changeName: () => void;
+  userInfo: UserInfo;
+  links: UserLink[];
+  addLink: () => void;
+  changePlatform: (id: string, platform: Socials) => void;
 };

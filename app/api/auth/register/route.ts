@@ -1,18 +1,21 @@
 import clientPromise from "@/lib/mongodb";
 import { NextRequest } from "next/server";
-import { validateRegisterUser } from "./middleware";
+import { RegisterUserSchema } from "./schemas";
 import bcrypt from "bcryptjs";
+import validateSchema from "../../middleware/validateSchema";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { success, errors, user } = validateRegisterUser(body);
+  const { success, errors, data } = validateSchema(body, RegisterUserSchema);
 
   if (!success) {
     return new Response(JSON.stringify(errors), {
       status: 400,
     });
   }
+
+  const user = data;
 
   try {
     const client = await clientPromise;

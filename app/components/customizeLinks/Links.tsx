@@ -1,11 +1,41 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { styled } from "styled-components";
 import LinksHeaderImage from "@/assets/images/illustration-empty.svg";
 import { SubHeading, Text } from "@/app/styles/TypographyStyles";
 import AddedLink from "./AddedLink";
+import UserContext from "@/app/context/UserContext";
 
 type Props = {};
+
+const LinksWrapper = styled.div`
+  height: 30.5rem;
+  overflow-y: auto;
+  margin-top: 1.5rem;
+
+  &:hover::-webkit-scrollbar-thumb {
+    background: #888;
+    margin-left: 5px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 5px;
+    margin-right: 30px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
 
 const NoLinksWrapper = styled.div`
   min-height: 21.1rem;
@@ -50,10 +80,15 @@ const NoLinks = () => (
 );
 
 const Links = (props: Props) => {
+  const { links } = useContext(UserContext);
   return (
     <>
       {/* <NoLinks /> */}
-      <AddedLink />
+      <LinksWrapper>
+        {links.map((link) => (
+          <AddedLink key={link.id} link={link} />
+        ))}
+      </LinksWrapper>
     </>
   );
 };

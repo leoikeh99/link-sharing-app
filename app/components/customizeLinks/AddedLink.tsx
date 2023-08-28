@@ -17,7 +17,7 @@ import { styled } from "styled-components";
 
 const Wrapper = styled.div`
   padding: 1.25rem;
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   background-color: var(--clr-neutral-200);
   border-radius: 0.75rem;
 `;
@@ -31,18 +31,18 @@ const RemoveBtn = styled.button`
   cursor: pointer;
 `;
 
-const AddedLink = () => {
+const AddedLink = ({ link }: { link: UserLink }) => {
   return (
     <Wrapper>
       <SpaceOut>
         <FlexGroup $gap="0.5">
-          <DnDIcon /> <Text $weight="bold">Link #1</Text>
+          <DnDIcon /> <Text $weight="bold">Link #{link.order}</Text>
         </FlexGroup>
         <RemoveBtn>Remove</RemoveBtn>
       </SpaceOut>
       <FormField name="selectLink">
         <Label $mt="0.75">Platform</Label>
-        <LinksSelect />
+        <LinksSelect link={link} />
       </FormField>
       <FormField name="url">
         <Label $mt="0.75">Link</Label>

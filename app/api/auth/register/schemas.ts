@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export const RegisterUserSchema = z.object({
@@ -10,14 +9,4 @@ export const RegisterUserSchema = z.object({
   image: z.string().nullable().default(null),
 });
 
-type RegistrationDetails = z.infer<typeof RegisterUserSchema>;
-
-export function validateRegisterUser(reqBody: any) {
-  const validate = RegisterUserSchema.safeParse(reqBody);
-
-  return {
-    success: validate.success,
-    errors: validate.error?.issues,
-    user: validate.data,
-  };
-}
+export type RegistrationDetails = z.infer<typeof RegisterUserSchema>;

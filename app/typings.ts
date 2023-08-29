@@ -14,9 +14,9 @@ type Socials =
   | "freeCodeCamp";
 
 type UserInfo = {
-  firstName: string;
-  lastName: string;
-  displayEmail: string;
+  firstName?: string;
+  lastName?: string;
+  displayEmail?: string;
 };
 
 type UserLink = {

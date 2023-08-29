@@ -119,6 +119,8 @@ export default function Login() {
           </Button>
         </Submit>
       </Form>
+      <br />
+      <Button onClick={() => signIn("github")}>Login with Github</Button>
       <Question>
         <Text $talign="center">Don’t have an account?</Text>
         <Link href="/register">Create account</Link>

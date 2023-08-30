@@ -14,13 +14,16 @@ type Socials =
   | "freeCodeCamp";
 
 type UserInfo = {
-  firstName?: string;
-  lastName?: string;
-  displayEmail?: string;
+  _id: string;
+  email: string;
+  image?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  displayEmail?: string | null;
 };
 
 type UserLink = {
-  id: string;
+  _id: string;
   platform: Socials | null;
   url: string;
   order: number;

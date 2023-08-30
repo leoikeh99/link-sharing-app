@@ -3,22 +3,32 @@ import CustomizeLinks from "../components/customizeLinks";
 import { HomeGrid } from "../styles/LayoutStyles";
 import MobilePreview from "../components/MobilePreview";
 import { UserProvider } from "../context/UserContext";
-
-const data = {
-  userInfo: {
-    firstName: "Leonard",
-    lastName: "Ikeh",
-    displayEmail: "leoanthoikeh@gmail.com",
-  },
-  links: [],
-};
+import clientPromise from "@/lib/mongodb";
+import { getServerSession } from "next-auth";
+import { options } from "../api/auth/[...nextauth]/authOptions";
+import { ObjectId } from "mongodb";
 
 export default async function Home() {
-  // let advice: any;
-  // await fetch("https://api.adviceslip.com/advice").then(async (res) => {
-  //   advice = await res.json();
-  // });
-  // console.log(advice);
+  const session = await getServerSession(options);
+  const client = await clientPromise;
+  const db = client.db("link-share");
+
+  let user = await db
+    .collection("users")
+    .findOne({ _id: new ObjectId(session?.user?.id) });
+  delete user?.password;
+  const userInfo: UserInfo = JSON.parse(JSON.stringify(user));
+
+  const userLinks = await db
+    .collection("links")
+    .find({ userId: new ObjectId(session?.user?.id) })
+    .toArray();
+  const links: Array<UserLink> = JSON.parse(JSON.stringify(userLinks));
+
+  const data = {
+    userInfo,
+    links,
+  };
 
   return (
     <UserProvider data={data}>

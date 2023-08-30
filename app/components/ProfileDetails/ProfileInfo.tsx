@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import {
   FormControl,
   FormControlCover,
@@ -7,8 +8,8 @@ import {
 } from "@/app/styles/FormStyles";
 import { ProfileGridFlow } from "@/app/styles/LayoutStyles";
 import { Message } from "@radix-ui/react-form";
-import React from "react";
 import { styled } from "styled-components";
+import UserContext from "@/app/context/UserContext";
 
 type Props = {};
 
@@ -34,15 +35,25 @@ const Wrapper = styled.div`
 `;
 
 const ProfileInfo = (props: Props) => {
+  const {
+    userInfo: { firstName, lastName, displayEmail },
+    updateInfo,
+  } = useContext(UserContext);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    updateInfo(e.target.name, e.target.value);
+
   return (
     <Wrapper>
-      <FormField name="firstname" className="mb">
+      <FormField name="firstName" className="mb">
         <ProfileGridFlow $initialGap="0.25">
-          <Label htmlFor="firstname">First name*</Label>
+          <Label htmlFor="firstName">First name*</Label>
           <FormControlCover>
             <FormControl
               type="text"
-              name="firstname"
+              name="firstName"
+              value={firstName || ""}
+              onChange={onChange}
               required
               placeholder="e.g. Ben"
             />
@@ -52,13 +63,15 @@ const ProfileInfo = (props: Props) => {
           </FormControlCover>
         </ProfileGridFlow>
       </FormField>
-      <FormField name="lastname" className="mb">
+      <FormField name="lastName" className="mb">
         <ProfileGridFlow $initialGap="0.25">
-          <Label htmlFor="lastname">Last name*</Label>
+          <Label htmlFor="lastName">Last name*</Label>
           <FormControlCover>
             <FormControl
               type="text"
-              name="lastname"
+              name="lastName"
+              value={lastName || ""}
+              onChange={onChange}
               required
               placeholder="e.g. Wright"
             />
@@ -68,13 +81,15 @@ const ProfileInfo = (props: Props) => {
           </FormControlCover>
         </ProfileGridFlow>
       </FormField>
-      <FormField name="email">
+      <FormField name="displayEmail">
         <ProfileGridFlow $initialGap="0.25">
-          <Label htmlFor="email">Email*</Label>
+          <Label htmlFor="displayEmail">Email*</Label>
           <FormControlCover>
             <FormControl
               type="email"
-              name="email"
+              name="displayEmail"
+              value={displayEmail || ""}
+              onChange={onChange}
               required
               placeholder="e.g. abc@example.com"
             />

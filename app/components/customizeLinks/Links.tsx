@@ -86,7 +86,7 @@ const Links = (props: Props) => {
       {/* <NoLinks /> */}
       <LinksWrapper>
         {links.map((link) => (
-          <AddedLink key={link.id} link={link} />
+          <AddedLink key={link._id} link={link} />
         ))}
       </LinksWrapper>
     </>

@@ -16,7 +16,7 @@ import UserContext from "@/app/context/UserContext";
 const Select = ({ link }: { link: UserLink }) => {
   const { changePlatform } = useContext(UserContext);
 
-  const onChange = (value: Socials) => changePlatform(link.id, value);
+  const onChange = (value: Socials) => changePlatform(link._id, value);
 
   return (
     <RadixSelect.Root

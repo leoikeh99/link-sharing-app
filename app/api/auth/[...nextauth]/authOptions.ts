@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { Adapter } from "@auth/core/adapters";
 
 export const options: NextAuthOptions = {
   session: {
@@ -27,7 +28,7 @@ export const options: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise, {
     databaseName: "link-share",
     collections: { Users: "users" },
-  }),
+  }) as Adapter,
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,

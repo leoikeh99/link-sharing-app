@@ -8,7 +8,9 @@ import LinkIcon from "../ui/LinkIcon";
 import {
   Avatar,
   Email,
+  EmptyEmail,
   EmptyLink,
+  EmptyName,
   Links,
   Name,
   NoAvatar,
@@ -18,47 +20,71 @@ import {
 
 type Props = {
   bigText?: boolean;
+  userInfo: UserInfo;
+  links: Array<UserLink>;
 };
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-const UserProfile = ({ bigText }: Props) => {
+const UserProfile = ({
+  bigText,
+  userInfo: { firstName, lastName, displayEmail },
+  links,
+}: Props) => {
   return (
     <Wrapper>
       <UserInfo>
         <Avatar
-          src="https://avatars.dicebear.com/api/identicon/wazza.svg"
+          src={`https://avatars.dicebear.com/api/initials/${firstName} ${lastName}.svg`}
           width={96}
           height={96}
           alt="avatar"
         />
         {/* <NoAvatar /> */}
-        <Name $value={"Ben Wright"} $bigText={bigText}>
-          Ben Wright
-        </Name>
-        <Email $value={"ben@example.com"} $bigText={bigText}>
-          ben@example.com
-        </Email>
+        {firstName || lastName ? (
+          <Name $bigText={bigText}>
+            {`${firstName || ""} ${lastName || ""}`}
+          </Name>
+        ) : (
+          <EmptyName />
+        )}
+        {displayEmail ? (
+          <Email $bigText={bigText}>{displayEmail}</Email>
+        ) : (
+          <EmptyEmail />
+        )}
       </UserInfo>
       <Links>
-        <SocialLink
-          $bg={
-            SocialLinks.find((val) => val.id === "github")?.color ||
-            "hsla(0, 0%, 10%, 1)"
-          }
-          $bigText={bigText}
-          href="/"
-          target="_blank">
-          <SpaceOut>
-            <FlexGroup $gap="0.5">
-              <LinkIcon iconKey="github" />
-              <span>GitHub</span>
-            </FlexGroup>
-            <ArrowRightIcon />
-          </SpaceOut>
-        </SocialLink>
+        {links.map((link) => (
+          <div key={link._id}>
+            {link.platform && (
+              <SocialLink
+                $colorInverse={link.platform === "frontendMentor"}
+                $bg={
+                  SocialLinks.find((val) => val.id === link.platform)?.color ||
+                  "hsla(0, 0%, 10%, 1)"
+                }
+                $bigText={bigText}
+                href="/"
+                target="_blank">
+                <SpaceOut>
+                  <FlexGroup $gap="0.5">
+                    <LinkIcon iconKey={link.platform} />
+                    <span>
+                      {
+                        SocialLinks.find((val) => val.id === link.platform)
+                          ?.name
+                      }
+                    </span>
+                  </FlexGroup>
+                  <ArrowRightIcon className="arrow" />
+                </SpaceOut>
+              </SocialLink>
+            )}
+          </div>
+        ))}
         {/* <EmptyLink />
         <EmptyLink />
         <EmptyLink />

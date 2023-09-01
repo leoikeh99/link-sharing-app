@@ -34,7 +34,7 @@ const RemoveBtn = styled.button`
 `;
 
 const AddedLink = ({ link }: { link: UserLink }) => {
-  const { links, updateUrl } = useContext(UserContext);
+  const { links, updateUrl, removeLink } = useContext(UserContext);
   const url = links.find((values) => values._id === link._id)?.url;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -46,7 +46,7 @@ const AddedLink = ({ link }: { link: UserLink }) => {
         <FlexGroup $gap="0.5">
           <DnDIcon /> <Text $weight="bold">Link #{link.order}</Text>
         </FlexGroup>
-        <RemoveBtn>Remove</RemoveBtn>
+        <RemoveBtn onClick={() => removeLink(link._id)}>Remove</RemoveBtn>
       </SpaceOut>
       <FormField name="selectLink">
         <Label $mt="0.75">Platform</Label>

@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import UserProfile from "./UserProfile";
 import { styled } from "styled-components";
 import { Phone, Screen } from "./styles";
+import UserContext from "@/app/context/UserContext";
 
 type Props = {};
 
@@ -19,11 +20,12 @@ const Wrapper = styled.div`
 `;
 
 export default function MobilePreview({}: Props) {
+  const { userInfo, links } = useContext(UserContext);
   return (
     <Wrapper>
       <Phone>
         <Screen>
-          <UserProfile />
+          <UserProfile userInfo={userInfo} links={links} />
         </Screen>
       </Phone>
     </Wrapper>

@@ -8,6 +8,7 @@ import Link from "next/link";
 import LinkIcon from "@/public/assets/images/icon-links-header.svg";
 import ProfileIcon from "@/public/assets/images/icon-profile-details-header.svg";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Wrapper = styled.div`
   padding: 1rem;
@@ -75,6 +76,7 @@ const Logo = styled.div`
 
 const Header = () => {
   const pathName = usePathname();
+  const session = useSession();
 
   return (
     <HeaderContainer>
@@ -107,7 +109,9 @@ const Header = () => {
               <span>Profile Details</span>
             </LinkItem>
           </FlexGroup>
-          <IconLink href="/preview/1" aria-label="Preview">
+          <IconLink
+            href={`/preview/${session.data?.user?.id}`}
+            aria-label="Preview">
             <Image
               src="/assets/images/icon-preview-header.svg"
               alt="preview"

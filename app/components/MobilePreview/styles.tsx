@@ -62,24 +62,35 @@ export const NoAvatar = styled.div`
   margin-bottom: 1.56rem;
 `;
 
-export const Name = styled.p<{ $value: string | null; $bigText?: boolean }>`
+export const Name = styled.p<{ $bigText?: boolean }>`
   font-size: ${({ $bigText }) => ($bigText ? "2rem" : "1.125rem")};
   font-weight: var(--fw-semi-bold);
   color: var(--clr-neutral-700);
   line-height: 150%;
   margin-bottom: 0.5rem;
-  ${({ $value }) => !$value && "background-color: var(--clr-neutral-350)"};
-  ${({ $value }) => !$value && "min-width: 10rem; min-height: 1rem"};
-  ${({ $value }) => !$value && "border-radius: 6.5rem"};
 `;
 
-export const Email = styled.p<{ $value: string | null; $bigText?: boolean }>`
+export const EmptyName = styled.p`
+  background-color: var(--clr-neutral-350);
+  min-width: 10rem;
+  min-height: 1rem;
+  border-radius: 6.5rem;
+  margin-bottom: 0.81rem;
+`;
+
+export const Email = styled.p<{
+  $bigText?: boolean;
+}>`
   font-size: ${({ $bigText }) => ($bigText ? "1rem" : "0.875rem")};
   color: var(--clr-neutral-400);
   line-height: 150%;
-  ${({ $value }) => !$value && "background-color: var(--clr-neutral-350)"};
-  ${({ $value }) => !$value && "min-width: 4.5rem; min-height: 0.5rem"};
-  ${({ $value }) => !$value && "border-radius: 6.5rem"};
+`;
+
+export const EmptyEmail = styled.p`
+  background-color: var(--clr-neutral-350);
+  min-width: 4.5rem;
+  min-height: 0.5rem;
+  border-radius: 6.5rem;
 `;
 
 export const Links = styled.div`
@@ -87,11 +98,17 @@ export const Links = styled.div`
   gap: 1.25rem;
 `;
 
-export const SocialLink = styled.a<{ $bg: string; $bigText?: boolean }>`
+export const SocialLink = styled.a<{
+  $bg: string;
+  $bigText?: boolean;
+  $colorInverse: boolean;
+}>`
   display: block;
   padding: 1rem;
   border-radius: 0.5rem;
-  color: var(--clr-neutral-100);
+  border: 1px solid var(--clr-neutral-300);
+  color: ${({ $colorInverse }) =>
+    $colorInverse ? "var(--clr-neutral-700)" : "var(--clr-neutral-100)"};
   background-color: ${({ $bg }) => $bg};
   text-decoration: none;
 
@@ -106,7 +123,11 @@ export const SocialLink = styled.a<{ $bg: string; $bigText?: boolean }>`
   }
 
   svg path {
-    fill: var(--clr-neutral-100);
+    ${({ $colorInverse }) => !$colorInverse && "fill: var(--clr-neutral-100);"}
+  }
+
+  svg.arrow path {
+    ${({ $colorInverse }) => $colorInverse && "fill: var(--clr-neutral-400);"}
   }
 `;
 

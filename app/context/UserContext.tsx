@@ -18,10 +18,14 @@ const contextDefaultValues: UserContextState = {
     displayEmail: "",
   },
   links: [],
+  loading: false,
+  removedLinks: null,
   addLink: () => {},
   changePlatform: () => {},
+  saveLinks: () => {},
   updateInfo: () => {},
   updateUrl: () => {},
+  removeLink: () => {},
 };
 
 const UserContext = createContext<UserContextState>(contextDefaultValues);
@@ -32,6 +36,10 @@ export const UserProvider = ({ data, children }: Props) => {
     displayEmail: data.userInfo.displayEmail || data.userInfo.email,
   });
   const [links, setLinks] = useState(data.links);
+  const [removedLinks, setRemovedLinks] = useState(
+    contextDefaultValues.removedLinks
+  );
+  const [loading, setLoading] = useState(contextDefaultValues.loading);
 
   const addLink = () =>
     setLinks((_links) => [
@@ -44,6 +52,47 @@ export const UserProvider = ({ data, children }: Props) => {
         new: true,
       },
     ]);
+
+  const removeLink = (id: string) => {
+    const order = links.find((values) => values._id === id)?.order;
+    setLinks((_links) =>
+      _links
+        .filter((values) => values._id !== id)
+        .map((values) =>
+          order && values.order > order
+            ? values.new
+              ? { ...values, order: values.order - 1 }
+              : { ...values, order: values.order - 1, updated: true }
+            : values
+        )
+    );
+
+    if (!links.find((_links) => _links._id === id)?.new) {
+      setRemovedLinks((_links) => (_links ? [..._links, id] : [id]));
+    }
+  };
+
+  const saveLinks = async () => {
+    setLoading("LINKS");
+    const data = {
+      links: links.filter((values) => values.new || values.updated),
+      removedLinks,
+    };
+
+    await fetch("/api/users/links", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(async (res: any) => {
+        if (res.ok) {
+          const data: { links: Array<UserLink> } = await res.json();
+          setLinks(data.links);
+        }
+      })
+      .catch((error: any) => console.log(error.response));
+    setLoading(false);
+  };
 
   const changePlatform = (id: string, platform: Socials) =>
     setLinks((_links) =>
@@ -78,10 +127,14 @@ export const UserProvider = ({ data, children }: Props) => {
       value={{
         userInfo,
         links,
+        loading,
+        removedLinks,
         addLink,
+        saveLinks,
         changePlatform,
         updateInfo,
         updateUrl,
+        removeLink,
       }}>
       {children}
     </UserContext.Provider>

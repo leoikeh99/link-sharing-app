@@ -7,7 +7,7 @@ import {
   HomeFormsTopWrapper,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
-import { Root } from "@radix-ui/react-form";
+import { Root, Submit } from "@radix-ui/react-form";
 import { styled } from "styled-components";
 import UserContext from "@/app/context/UserContext";
 
@@ -19,9 +19,16 @@ const Form = styled(Root)`
 `;
 
 const CustomizeLinks = (props: Props) => {
-  const { addLink } = useContext(UserContext);
+  const { links, loading, addLink, saveLinks } = useContext(UserContext);
+
+  const submitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    saveLinks();
+  };
+
+  const changes = links.some((values) => values.new || values.updated);
   return (
-    <Form>
+    <Form onSubmit={submitForm}>
       <HomeFormsTopWrapper>
         <MainHeading $mb="1">Customize your links</MainHeading>
         <Text $mb="2.5">
@@ -34,7 +41,9 @@ const CustomizeLinks = (props: Props) => {
         <Links />
       </HomeFormsTopWrapper>
       <SaveButtonContainer>
-        <Button disabled>Save</Button>
+        <Submit asChild>
+          <Button disabled={!(changes && !loading)}>Save</Button>
+        </Submit>
       </SaveButtonContainer>
     </Form>
   );

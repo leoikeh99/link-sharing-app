@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { AddLinkSchema, Links } from "./schemas";
+import { AddLinkSchema, SaveLinks } from "./schemas";
 import { getServerSession } from "next-auth/next";
 import validateSchema from "../../middleware/validateSchema";
 import { options } from "../../auth/[...nextauth]/authOptions";
@@ -10,7 +10,7 @@ import { containsDuplicates } from "../../utils";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { success, errors, data } = validateSchema(body, AddLinkSchema);
+  let { success, errors, data } = validateSchema(body, AddLinkSchema);
 
   if (!success) {
     return new Response(JSON.stringify(errors), {
@@ -29,19 +29,49 @@ export async function POST(req: NextRequest) {
     const client = await clientPromise;
     const db = client.db("link-share");
 
-    const links: Links = data;
+    let _data: SaveLinks = data;
+    const links = _data.links;
+    const removedLinks = _data.removedLinks;
     const userId = session.user?.id;
+
+    if (removedLinks) {
+      for (const id of removedLinks) {
+        if (links.some((values) => values._id === id)) {
+          return new Response(
+            JSON.stringify({
+              message: "Updated or New links cannot be a removed link",
+            }),
+            {
+              status: 400,
+            }
+          );
+        }
+      }
+      //delete all removed links
+      await db.collection("links").bulkWrite(
+        removedLinks.map((id) => {
+          return {
+            deleteOne: {
+              filter: { _id: new ObjectId(id) },
+            },
+          };
+        })
+      );
+    }
 
     //check if docs for updates are valid docs
     for (const value of links.filter((link) => link.updated)) {
       const checkDoc = await db
         .collection("links")
-        .findOne({ _id: new ObjectId(value.id), userId: new ObjectId(userId) });
+        .findOne({
+          _id: new ObjectId(value._id),
+          userId: new ObjectId(userId),
+        });
 
       if (!checkDoc) {
         return new Response(
           JSON.stringify({
-            message: `Document with _id:${value.id} is invalid`,
+            message: `Document with _id:${value._id} is invalid`,
           }),
           {
             status: 400,
@@ -57,7 +87,7 @@ export async function POST(req: NextRequest) {
     const numberOfNewLinks = links.filter((link) => link.new).length;
     const totalNumberOfLinks = numberOfCurrentLinks + numberOfNewLinks;
 
-    if (links.some((link) => link.order > links.length)) {
+    if (links.some((link) => link.order > totalNumberOfLinks)) {
       return new Response(
         JSON.stringify({
           message: `Order number cannot be greater than the total number of links(${totalNumberOfLinks})`,
@@ -85,7 +115,7 @@ export async function POST(req: NextRequest) {
         updateLinks.map((values) => {
           return {
             updateOne: {
-              filter: { _id: new ObjectId(values.id) },
+              filter: { _id: new ObjectId(values._id) },
               update: {
                 $set: {
                   platform: values.platform,
@@ -115,7 +145,15 @@ export async function POST(req: NextRequest) {
       await db.collection("links").insertMany(newLinks);
     }
 
-    return new Response(JSON.stringify({ data }), { status: 200 });
+    const allLinks = await db
+      .collection("links")
+      .find({ userId: new ObjectId(userId) })
+      .toArray();
+
+    return new Response(
+      JSON.stringify({ links: JSON.parse(JSON.stringify(allLinks)) }),
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return new Response(JSON.stringify({ message: "Something went wrong" }), {

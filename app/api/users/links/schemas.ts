@@ -16,16 +16,18 @@ const Platforms = [
   "freeCodeCamp",
 ] as const;
 
-export const AddLinkSchema = z
-  .object({
-    id: z.string().optional(),
-    platform: z.enum(Platforms),
-    url: z.string().url(),
-    order: z.number().min(1),
-    new: z.literal(true).optional(),
-    updated: z.literal(true).optional(),
-  })
-  .array()
-  .min(1);
+export const AddLinkSchema = z.object({
+  links: z
+    .object({
+      _id: z.string().optional(),
+      platform: z.enum(Platforms),
+      url: z.string().url(),
+      order: z.number().min(1),
+      new: z.literal(true).optional(),
+      updated: z.literal(true).optional(),
+    })
+    .array(),
+  removedLinks: z.string().array().nullable().optional(),
+});
 
-export type Links = z.infer<typeof AddLinkSchema>;
+export type SaveLinks = z.infer<typeof AddLinkSchema>;

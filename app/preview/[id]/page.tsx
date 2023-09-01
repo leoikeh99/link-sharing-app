@@ -1,18 +1,21 @@
 import React from "react";
 import { ContentContainer, MainContent } from "../styles";
 import UserProfile from "@/app/components/MobilePreview/UserProfile";
-import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/authOptions";
+import getUserData from "@/lib/getUserData";
 
-export default async function PreviewLinks() {
-  const session = await getServerSession(options);
-  console.log(session);
+export default async function PreviewLinks({
+  params,
+}: {
+  params: { id: string };
+}) {
+  let data = await getUserData(params.id);
+  if (!data) throw new Error("Something went wrong try again");
 
   return (
     <div>
       <MainContent>
         <ContentContainer>
-          <UserProfile bigText={true} />
+          <UserProfile {...data} />
         </ContentContainer>
       </MainContent>
     </div>

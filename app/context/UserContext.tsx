@@ -31,10 +31,7 @@ const contextDefaultValues: UserContextState = {
 const UserContext = createContext<UserContextState>(contextDefaultValues);
 
 export const UserProvider = ({ data, children }: Props) => {
-  const [userInfo, setUserInfo] = useState({
-    ...data.userInfo,
-    displayEmail: data.userInfo.displayEmail || data.userInfo.email,
-  });
+  const [userInfo, setUserInfo] = useState(data.userInfo);
   const [links, setLinks] = useState(data.links);
   const [removedLinks, setRemovedLinks] = useState(
     contextDefaultValues.removedLinks

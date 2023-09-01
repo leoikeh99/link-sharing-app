@@ -4,12 +4,14 @@ import { MainHeading, Text } from "../../styles/TypographyStyles";
 import { Button } from "../../styles/FormStyles";
 import Links from "./Links";
 import {
+  FlexGroup,
   HomeFormsTopWrapper,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
 import { Root, Submit } from "@radix-ui/react-form";
 import { styled } from "styled-components";
 import UserContext from "@/app/context/UserContext";
+import Loading from "react-loading";
 
 type Props = {};
 
@@ -42,7 +44,19 @@ const CustomizeLinks = (props: Props) => {
       </HomeFormsTopWrapper>
       <SaveButtonContainer>
         <Submit asChild>
-          <Button disabled={!(changes && !loading)}>Save</Button>
+          <Button disabled={!(changes && !loading)}>
+            <FlexGroup $gap="0.5">
+              {loading && (
+                <Loading
+                  type="spin"
+                  height={23}
+                  width={23}
+                  color="var(--clr-neutral-100)"
+                />
+              )}
+              <span>Save</span>
+            </FlexGroup>
+          </Button>
         </Submit>
       </SaveButtonContainer>
     </Form>

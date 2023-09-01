@@ -72,6 +72,9 @@ const AddedLink = ({ link }: { link: UserLink }) => {
           <Message match="valueMissing" asChild>
             <FormMessage>Can't be empty</FormMessage>
           </Message>
+          <Message match={() => !link.platform}>
+            <FormMessage>Select Platform</FormMessage>
+          </Message>
           <Message
             match={() =>
               link.platform

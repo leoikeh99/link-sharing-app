@@ -26,6 +26,7 @@ const contextDefaultValues: UserContextState = {
   updateInfo: () => {},
   updateUrl: () => {},
   removeLink: () => {},
+  updateProfile: () => {},
 };
 
 const UserContext = createContext<UserContextState>(contextDefaultValues);
@@ -91,6 +92,29 @@ export const UserProvider = ({ data, children }: Props) => {
     setLoading(false);
   };
 
+  const updateProfile = async () => {
+    setLoading("PROFILE");
+    const data = {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      displayEmail: userInfo.displayEmail,
+    };
+
+    await fetch("/api/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(async (res: any) => {
+        if (res.ok) {
+          const data: { message: string } = await res.json();
+          console.log(data.message);
+        }
+      })
+      .catch((error: any) => console.log(error.response));
+    setLoading(false);
+  };
+
   const changePlatform = (id: string, platform: Socials) =>
     setLinks((_links) =>
       _links.map((values) =>
@@ -132,6 +156,7 @@ export const UserProvider = ({ data, children }: Props) => {
         updateInfo,
         updateUrl,
         removeLink,
+        updateProfile,
       }}>
       {children}
     </UserContext.Provider>

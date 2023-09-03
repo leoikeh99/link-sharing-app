@@ -7,7 +7,7 @@ import {
 } from "@/app/styles/LayoutStyles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
 import { Root, Submit } from "@radix-ui/react-form";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 import ProfileInfo from "./ProfileInfo";
@@ -25,6 +25,10 @@ const Form = styled(Root)`
 
 const ProfileDetails = (props: Props) => {
   const { loading, updateProfile } = useContext(UserContext);
+  const [file, setFile] = useState<Blob | undefined | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setFile(e.target.files?.[0]);
 
   const submitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +41,7 @@ const ProfileDetails = (props: Props) => {
         <Text $mb="2.5">
           Add your details to create a personal touch to your profile.
         </Text>
-        <ImageUpload />
+        <ImageUpload file={file} onChange={onFileChange} />
         <ProfileInfo />
       </HomeFormsTopWrapper>
       <SaveButtonContainer>

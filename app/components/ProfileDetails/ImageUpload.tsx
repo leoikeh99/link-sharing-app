@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text } from "@/app/styles/TypographyStyles";
 import { styled } from "styled-components";
 import ImageIcon from "@/assets/images/icon-upload-image.svg";
 import { ProfileGridFlow } from "@/app/styles/LayoutStyles";
 
-type Props = {};
+type Props = {
+  file: Blob | undefined | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 const Wrapper = styled.div`
   padding: 1.25rem;
@@ -23,20 +26,58 @@ const UploadContainer = styled.div`
   }
 `;
 
-const UploadBtn = styled.div`
+const UploadBtn = styled.div<{ $image: string | ArrayBuffer | null }>`
+  position: relative;
   min-height: 12rem;
   min-width: 12rem;
   max-width: 12rem;
   position: relative;
   display: grid;
   place-items: center;
-  align-content: center;
   gap: 0.5rem;
-  color: var(--clr-primary-400);
+  color: ${({ $image }) =>
+    $image ? "var(--clr-neutral-100)" : "var(--clr-primary-400)"};
   font-weight: var(--fw-semi-bold);
   background-color: var(--clr-primary-100);
   border-radius: 0.75rem;
   border: none;
+  overflow: hidden;
+
+  span {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  ${({ $image }) =>
+    $image &&
+    `&:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12rem;
+    background-image:url(${$image});  
+    background-size: cover;
+    background-position: center;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12rem;
+    background-color: #000;
+    opacity: 0.5;  
+  }`}
+
+  svg path {
+    fill: ${({ $image }) => $image && "var(--clr-neutral-100)"};
+  }
 `;
 
 const FileInput = styled.input`
@@ -49,15 +90,35 @@ const FileInput = styled.input`
   cursor: pointer;
 `;
 
-const ImageUpload = (props: Props) => {
+const ImageUpload = ({ file, onChange }: Props) => {
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+
+  const readImage = () => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => setImage(reader.result);
+  };
+
+  useEffect(() => {
+    readImage();
+  }, [file]);
+
   return (
     <Wrapper>
       <ProfileGridFlow $initialGap="1">
         <Text>Profile picture</Text>
         <UploadContainer>
-          <UploadBtn>
-            <FileInput type="file" name="avatar" id="avatar" />
-            <ImageIcon />+ Upload Image
+          <UploadBtn $image={image}>
+            <span>
+              <FileInput
+                type="file"
+                name="avatar"
+                id="avatar"
+                onChange={onChange}
+              />
+              <ImageIcon />+ Upload Image
+            </span>
           </UploadBtn>
           <Text $size="sm">
             Image must be below 1024x1024px. Use PNG or JPG format.

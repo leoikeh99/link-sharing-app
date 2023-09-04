@@ -15,7 +15,7 @@ export default async function PreviewLinks({
     <div>
       <MainContent>
         <ContentContainer>
-          <UserProfile {...data} />
+          <UserProfile {...data} uploadImage={null} />
         </ContentContainer>
       </MainContent>
     </div>

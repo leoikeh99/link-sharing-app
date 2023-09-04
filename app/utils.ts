@@ -1,3 +1,5 @@
+import { imageTypes } from "./constants";
+
 export function validateUserProfileUrl(
   platform: Socials,
   url: string
@@ -31,3 +33,11 @@ export function validateUserProfileUrl(
 
   return platformRegex.test(url);
 }
+
+export const isImageTypeAllowed = (type: string) => {
+  return imageTypes.some((val) => val === type);
+};
+
+export const bytesToMb = (bytes: number) => {
+  return bytes / (1024 * 1024);
+};

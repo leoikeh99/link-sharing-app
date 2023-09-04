@@ -22,6 +22,7 @@ type Props = {
   bigText?: boolean;
   userInfo: UserInfo;
   links: Array<UserLink>;
+  uploadImage: string | null | undefined;
 };
 
 const Wrapper = styled.div`
@@ -30,14 +31,23 @@ const Wrapper = styled.div`
 
 const UserProfile = ({
   bigText,
-  userInfo: { firstName, lastName, displayEmail },
+  userInfo: { firstName, lastName, displayEmail, image },
   links,
+  uploadImage,
 }: Props) => {
   return (
     <Wrapper>
       <UserInfo>
         <Avatar
-          src={`https://avatars.dicebear.com/api/initials/${firstName} ${lastName}.svg`}
+          src={
+            uploadImage
+              ? uploadImage
+              : image
+              ? image
+              : firstName || lastName
+              ? `https://avatars.dicebear.com/api/initials/${firstName} ${lastName}.svg`
+              : "https://avatars.dicebear.com/api/identicon/random.svg"
+          }
           width={96}
           height={96}
           alt="avatar"

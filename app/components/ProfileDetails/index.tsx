@@ -15,6 +15,8 @@ import { Button } from "@/app/styles/FormStyles";
 import MobilePreview from "../MobilePreview";
 import UserContext from "@/app/context/UserContext";
 import Loading from "react-loading";
+import { imageTypes } from "@/app/constants";
+import { bytesToMb, isImageTypeAllowed } from "@/app/utils";
 
 type Props = {};
 
@@ -24,15 +26,50 @@ const Form = styled(Root)`
 `;
 
 const ProfileDetails = (props: Props) => {
-  const { loading, updateProfile } = useContext(UserContext);
+  const { loading, updateProfile, updateUploadImage } = useContext(UserContext);
   const [file, setFile] = useState<Blob | undefined | null>(null);
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFile(e.target.files?.[0]);
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!isImageTypeAllowed(file.type)) {
+      console.log(`Only JPG and PNG images allowed`);
+      return;
+    }
+    if (bytesToMb(file.size) > 2) {
+      console.log(`Max image size: 2MB`);
+      return;
+    }
+    var _URL = window.URL || window.webkitURL;
+    let img = new Image();
+    var objectUrl = _URL.createObjectURL(file);
+    img.onload = function () {
+      if (img.height < 1024 && img.width < 1024) {
+        setFile(file);
+      } else {
+        console.log(`Dimensions cannot exceed 1024 X 1024`);
+        updateUploadImage(null);
+        setFile(null);
+      }
+      _URL.revokeObjectURL(objectUrl);
+    };
+    img.src = objectUrl;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      if (!reader.result) {
+        console.log("Error adding image.");
+        return;
+      }
+      updateUploadImage(reader.result.toString());
+    };
+  };
 
   const submitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateProfile();
+    updateProfile(file);
   };
   return (
     <Form onSubmit={submitForm}>
@@ -41,7 +78,7 @@ const ProfileDetails = (props: Props) => {
         <Text $mb="2.5">
           Add your details to create a personal touch to your profile.
         </Text>
-        <ImageUpload file={file} onChange={onFileChange} />
+        <ImageUpload onChange={onFileChange} />
         <ProfileInfo />
       </HomeFormsTopWrapper>
       <SaveButtonContainer>

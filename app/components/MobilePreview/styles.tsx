@@ -52,6 +52,7 @@ export const Avatar = styled(Image)`
   border: 4px solid var(--clr-primary-400);
   border-radius: 50%;
   margin-bottom: 1.56rem;
+  object-fit: cover;
 `;
 
 export const NoAvatar = styled.div`

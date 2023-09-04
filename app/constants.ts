@@ -21,3 +21,5 @@ export const SocialLinks: { name: string; id: Socials; color: string }[] = [
   { name: "Facebook", id: "facebook", color: "hsla(227, 66%, 41%, 1)" },
   { name: "freeCodeCamp", id: "freeCodeCamp", color: "hsla(252, 50%, 27%, 1)" },
 ];
+
+export const imageTypes = ["image/jpeg", "image/png"];

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Text } from "@/app/styles/TypographyStyles";
 import { styled } from "styled-components";
 import ImageIcon from "@/assets/images/icon-upload-image.svg";
 import { ProfileGridFlow } from "@/app/styles/LayoutStyles";
+import UserContext from "@/app/context/UserContext";
 
 type Props = {
-  file: Blob | undefined | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -26,7 +26,7 @@ const UploadContainer = styled.div`
   }
 `;
 
-const UploadBtn = styled.div<{ $image: string | ArrayBuffer | null }>`
+const UploadBtn = styled.div<{ $image: string | null }>`
   position: relative;
   min-height: 12rem;
   min-width: 12rem;
@@ -90,26 +90,18 @@ const FileInput = styled.input`
   cursor: pointer;
 `;
 
-const ImageUpload = ({ file, onChange }: Props) => {
-  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-
-  const readImage = () => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => setImage(reader.result);
-  };
-
-  useEffect(() => {
-    readImage();
-  }, [file]);
+const ImageUpload = ({ onChange }: Props) => {
+  const {
+    uploadImage,
+    userInfo: { image },
+  } = useContext(UserContext);
 
   return (
     <Wrapper>
       <ProfileGridFlow $initialGap="1">
         <Text>Profile picture</Text>
         <UploadContainer>
-          <UploadBtn $image={image}>
+          <UploadBtn $image={uploadImage || image || null}>
             <span>
               <FileInput
                 type="file"

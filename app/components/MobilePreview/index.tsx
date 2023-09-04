@@ -20,12 +20,16 @@ const Wrapper = styled.div`
 `;
 
 export default function MobilePreview({}: Props) {
-  const { userInfo, links } = useContext(UserContext);
+  const { userInfo, links, uploadImage } = useContext(UserContext);
   return (
     <Wrapper>
       <Phone>
         <Screen>
-          <UserProfile userInfo={userInfo} links={links} />
+          <UserProfile
+            userInfo={userInfo}
+            links={links}
+            uploadImage={uploadImage}
+          />
         </Screen>
       </Phone>
     </Wrapper>

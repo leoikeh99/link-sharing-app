@@ -17,6 +17,7 @@ const contextDefaultValues: UserContextState = {
     lastName: "",
     displayEmail: "",
   },
+  uploadImage: null,
   links: [],
   loading: false,
   removedLinks: null,
@@ -27,6 +28,7 @@ const contextDefaultValues: UserContextState = {
   updateUrl: () => {},
   removeLink: () => {},
   updateProfile: () => {},
+  updateUploadImage: () => {},
 };
 
 const UserContext = createContext<UserContextState>(contextDefaultValues);
@@ -38,6 +40,9 @@ export const UserProvider = ({ data, children }: Props) => {
     contextDefaultValues.removedLinks
   );
   const [loading, setLoading] = useState(contextDefaultValues.loading);
+  const [uploadImage, setUploadImage] = useState(
+    contextDefaultValues.uploadImage
+  );
 
   const addLink = () =>
     setLinks((_links) => [
@@ -92,7 +97,7 @@ export const UserProvider = ({ data, children }: Props) => {
     setLoading(false);
   };
 
-  const updateProfile = async () => {
+  const updateProfile = async (ImageFile: Blob | undefined | null) => {
     setLoading("PROFILE");
     const data = {
       firstName: userInfo.firstName,
@@ -109,9 +114,30 @@ export const UserProvider = ({ data, children }: Props) => {
         if (res.ok) {
           const data: { message: string } = await res.json();
           console.log(data.message);
+        } else {
+          const data: { message: string } = await res.json();
+          console.log(data.message);
         }
       })
       .catch((error: any) => console.log(error.response));
+
+    if (ImageFile) {
+      //upload image
+      const formData = new FormData();
+      formData.set("avatar", ImageFile);
+
+      await fetch("/api/users/avatar", {
+        method: "PUT",
+        body: formData,
+      })
+        .then(async (res: any) => {
+          if (!res.ok) {
+            const data: { message: string } = await res.json();
+            console.log(data.message);
+          }
+        })
+        .catch((error: any) => console.log(error.response));
+    }
     setLoading(false);
   };
 
@@ -143,6 +169,8 @@ export const UserProvider = ({ data, children }: Props) => {
       return { ...info, [name]: value };
     });
 
+  const updateUploadImage = (image: string | null) => setUploadImage(image);
+
   return (
     <UserContext.Provider
       value={{
@@ -150,6 +178,8 @@ export const UserProvider = ({ data, children }: Props) => {
         links,
         loading,
         removedLinks,
+        uploadImage,
+        updateUploadImage,
         addLink,
         saveLinks,
         changePlatform,

@@ -10,6 +10,9 @@ type UserContextState = {
   changePlatform: (id: string, platform: Socials) => void;
   updateInfo: (name: string, value: string) => void;
   updateUrl: (id: string, value: string) => void;
-  updateProfile: (imageFile: Blob | undefined | null) => void;
+  updateProfile: (
+    imageFile: Blob | undefined | null,
+    clearFile: Function
+  ) => void;
   updateUploadImage: (image: string | null) => void;
 };

@@ -97,8 +97,39 @@ export const UserProvider = ({ data, children }: Props) => {
     setLoading(false);
   };
 
-  const updateProfile = async (ImageFile: Blob | undefined | null) => {
+  const updateProfile = async (
+    ImageFile: Blob | undefined | null,
+    clearFile: Function
+  ) => {
     setLoading("PROFILE");
+    let avatarUploadSuccessfull = false;
+
+    if (ImageFile && clearFile) {
+      //upload image
+      const formData = new FormData();
+      formData.set("avatar", ImageFile);
+
+      await fetch("/api/users/avatar", {
+        method: "PUT",
+        body: formData,
+      }).then(async (res: any) => {
+        const data = await res.json();
+
+        if (!res.ok) {
+          console.log(data.message);
+          return;
+        }
+        setUserInfo((info) => {
+          return { ...info, image: data.imageUrl };
+        });
+        clearFile();
+        avatarUploadSuccessfull = true;
+        console.log(data.message);
+      });
+    }
+
+    if (ImageFile && !avatarUploadSuccessfull) return;
+
     const data = {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
@@ -109,35 +140,16 @@ export const UserProvider = ({ data, children }: Props) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-    })
-      .then(async (res: any) => {
-        if (res.ok) {
-          const data: { message: string } = await res.json();
-          console.log(data.message);
-        } else {
-          const data: { message: string } = await res.json();
-          console.log(data.message);
-        }
-      })
-      .catch((error: any) => console.log(error.response));
+    }).then(async (res: any) => {
+      const data: { message: string } = await res.json();
+      if (res.ok) {
+        setUploadImage(null);
+        console.log(data.message);
+        return;
+      }
+      console.log(data.message);
+    });
 
-    if (ImageFile) {
-      //upload image
-      const formData = new FormData();
-      formData.set("avatar", ImageFile);
-
-      await fetch("/api/users/avatar", {
-        method: "PUT",
-        body: formData,
-      })
-        .then(async (res: any) => {
-          if (!res.ok) {
-            const data: { message: string } = await res.json();
-            console.log(data.message);
-          }
-        })
-        .catch((error: any) => console.log(error.response));
-    }
     setLoading(false);
   };
 

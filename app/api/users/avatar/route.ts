@@ -1,11 +1,21 @@
-import { imageTypes } from "@/app/constants";
 import { bytesToMb, isImageTypeAllowed } from "@/app/utils";
 import cloudinary from "@/lib/cloudinary";
+import clientPromise from "@/lib/mongodb";
+import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
+import { options } from "../../auth/[...nextauth]/authOptions";
+import { ObjectId } from "mongodb";
 
 export async function PUT(req: NextRequest) {
   const formData = await req.formData();
   const file: File | null = formData.get("avatar") as unknown as File;
+
+  const session = await getServerSession(options);
+  if (!session) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+    });
+  }
 
   if (!file) {
     return new Response(JSON.stringify({ message: "File invalid" }), {
@@ -29,18 +39,55 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
+    const client = await clientPromise;
+    const db = client.db("link-share");
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes).toString("base64");
-    const withPrefix = `data:${file.type};base64,` + buffer;
+    const imageReadStream = `data:${file.type};base64,` + buffer;
 
-    const uploadResult = await cloudinary.uploader.upload(withPrefix, {
+    const user = await db
+      .collection("users")
+      .findOne({ _id: new ObjectId(session.user?.id) });
+    if (!user) {
+      return new Response(
+        JSON.stringify({ message: "Error updloading image" }),
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (user.cloudinaryId) {
+      await cloudinary.uploader.destroy(user.cloudinaryId);
+    }
+
+    const uploadResult = await cloudinary.uploader.upload(imageReadStream, {
       folder: "link share",
     });
-    console.log(uploadResult);
+    const { url, public_id } = uploadResult;
 
-    return new Response(JSON.stringify({ message: "Success" }), {
-      status: 200,
-    });
+    const updateAvatar = await db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(session.user?.id) },
+        { $set: { image: url, cloudinaryId: public_id } }
+      );
+
+    if (!updateAvatar) {
+      return new Response(
+        JSON.stringify({ message: "Error updloading image" }),
+        {
+          status: 400,
+        }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ message: "Image uploaded successfully", imageUrl: url }),
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error);
     return new Response(JSON.stringify({ message: "Something went wrong" }), {

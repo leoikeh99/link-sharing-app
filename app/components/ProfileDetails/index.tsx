@@ -67,9 +67,11 @@ const ProfileDetails = (props: Props) => {
     };
   };
 
+  const clearFile = () => setFile(null);
+
   const submitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateProfile(file);
+    updateProfile(file, clearFile);
   };
   return (
     <Form onSubmit={submitForm}>

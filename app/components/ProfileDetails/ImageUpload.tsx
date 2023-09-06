@@ -101,7 +101,7 @@ const ImageUpload = ({ onChange }: Props) => {
       <ProfileGridFlow $initialGap="1">
         <Text>Profile picture</Text>
         <UploadContainer>
-          <UploadBtn $image={uploadImage || image || null}>
+          <UploadBtn $image={uploadImage || null}>
             <span>
               <FileInput
                 type="file"

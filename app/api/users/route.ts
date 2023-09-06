@@ -9,18 +9,18 @@ import { ObjectId } from "mongodb";
 export async function PUT(req: NextRequest) {
   const body = await req.json();
 
+  const session = await getServerSession(options);
+  if (!session) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+    });
+  }
+
   let { success, errors, data } = validateSchema(body, UpdateUserSchema);
 
   if (!success) {
     return new Response(JSON.stringify(errors), {
       status: 400,
-    });
-  }
-
-  const session = await getServerSession(options);
-  if (!session) {
-    return new Response(JSON.stringify({ message: "Unauthorized" }), {
-      status: 401,
     });
   }
 

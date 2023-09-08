@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
+import AlertContext from "./AlertContext";
 
 type Props = {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export const UserProvider = ({ data, children }: Props) => {
   const [uploadImage, setUploadImage] = useState(
     contextDefaultValues.uploadImage
   );
+  const { createAlert } = useContext(AlertContext);
 
   const addLink = () =>
     setLinks((_links) => [
@@ -86,14 +88,15 @@ export const UserProvider = ({ data, children }: Props) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-    })
-      .then(async (res: any) => {
-        if (res.ok) {
-          const data: { links: Array<UserLink> } = await res.json();
-          setLinks(data.links);
-        }
-      })
-      .catch((error: any) => console.log(error.response));
+    }).then(async (res: any) => {
+      const data = await res.json();
+      if (res.ok) {
+        setLinks(data.links);
+        createAlert("success", data.message);
+        return;
+      }
+      createAlert("danger", data.message);
+    });
     setLoading(false);
   };
 
@@ -116,7 +119,7 @@ export const UserProvider = ({ data, children }: Props) => {
         const data = await res.json();
 
         if (!res.ok) {
-          console.log(data.message);
+          createAlert("danger", data.message);
           return;
         }
         setUserInfo((info) => {
@@ -124,7 +127,6 @@ export const UserProvider = ({ data, children }: Props) => {
         });
         clearFile();
         avatarUploadSuccessfull = true;
-        console.log(data.message);
       });
     }
 
@@ -144,10 +146,10 @@ export const UserProvider = ({ data, children }: Props) => {
       const data: { message: string } = await res.json();
       if (res.ok) {
         setUploadImage(null);
-        console.log(data.message);
+        createAlert("success", "Your changes have been successfully saved!");
         return;
       }
-      console.log(data.message);
+      createAlert("danger", data.message);
     });
 
     setLoading(false);

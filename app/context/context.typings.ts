@@ -16,3 +16,17 @@ type UserContextState = {
   ) => void;
   updateUploadImage: (image: string | null) => void;
 };
+
+type AlertTypes = "success" | "danger" | "info" | "warning";
+
+type Alert = {
+  id: string;
+  type: AlertTypes;
+  message: string;
+};
+
+type AlertContextState = {
+  alerts: Array<Alert>;
+  createAlert: (type: AlertTypes, message: string) => void;
+  removeAlert: (id: string) => void;
+};

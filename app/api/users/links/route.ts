@@ -61,12 +61,10 @@ export async function POST(req: NextRequest) {
 
     //check if docs for updates are valid docs
     for (const value of links.filter((link) => link.updated)) {
-      const checkDoc = await db
-        .collection("links")
-        .findOne({
-          _id: new ObjectId(value._id),
-          userId: new ObjectId(userId),
-        });
+      const checkDoc = await db.collection("links").findOne({
+        _id: new ObjectId(value._id),
+        userId: new ObjectId(userId),
+      });
 
       if (!checkDoc) {
         return new Response(
@@ -151,13 +149,19 @@ export async function POST(req: NextRequest) {
       .toArray();
 
     return new Response(
-      JSON.stringify({ links: JSON.parse(JSON.stringify(allLinks)) }),
+      JSON.stringify({
+        message: "Links saved successfully",
+        links: JSON.parse(JSON.stringify(allLinks)),
+      }),
       { status: 200 }
     );
   } catch (error) {
     console.log(error);
-    return new Response(JSON.stringify({ message: "Something went wrong" }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ message: "Something went wrong, try again" }),
+      {
+        status: 400,
+      }
+    );
   }
 }

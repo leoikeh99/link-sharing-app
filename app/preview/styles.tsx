@@ -31,6 +31,7 @@ export const HeaderContent = styled.div`
   @media (min-width: 37.5em) {
     display: flex;
     justify-content: space-between;
+    button,
     a {
       padding: 0.69rem 1.69rem;
       font-size: var(--fs-base);

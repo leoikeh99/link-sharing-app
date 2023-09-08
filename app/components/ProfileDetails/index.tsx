@@ -2,7 +2,6 @@
 import {
   FlexGroup,
   HomeFormsTopWrapper,
-  HomeGrid,
   SaveButtonContainer,
 } from "@/app/styles/LayoutStyles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
@@ -12,33 +11,33 @@ import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/app/styles/FormStyles";
-import MobilePreview from "../MobilePreview";
 import UserContext from "@/app/context/UserContext";
 import Loading from "react-loading";
-import { imageTypes } from "@/app/constants";
 import { bytesToMb, isImageTypeAllowed } from "@/app/utils";
-
-type Props = {};
+import AlertContext from "@/app/context/AlertContext";
 
 const Form = styled(Root)`
   background-color: var(--bg-sub);
   border-radius: 0.75rem;
 `;
 
-const ProfileDetails = (props: Props) => {
+const ProfileDetails = () => {
   const { loading, updateProfile, updateUploadImage } = useContext(UserContext);
   const [file, setFile] = useState<Blob | undefined | null>(null);
+  const { createAlert } = useContext(AlertContext);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (!isImageTypeAllowed(file.type)) {
-      console.log(`Only JPG and PNG images allowed`);
+      e.target.value = "";
+      createAlert("danger", "Only JPG and PNG images allowed");
       return;
     }
     if (bytesToMb(file.size) > 2) {
-      console.log(`Max image size: 2MB`);
+      e.target.value = "";
+      createAlert("danger", "Max image size: 2MB");
       return;
     }
     var _URL = window.URL || window.webkitURL;
@@ -48,10 +47,11 @@ const ProfileDetails = (props: Props) => {
       if (img.height < 1024 && img.width < 1024) {
         setFile(file);
       } else {
-        console.log(`Dimensions cannot exceed 1024 X 1024`);
+        createAlert("danger", "Dimensions cannot exceed 1024 X 1024");
         updateUploadImage(null);
         setFile(null);
       }
+      e.target.value = "";
       _URL.revokeObjectURL(objectUrl);
     };
     img.src = objectUrl;
@@ -60,11 +60,12 @@ const ProfileDetails = (props: Props) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       if (!reader.result) {
-        console.log("Error adding image.");
+        createAlert("danger", "Error adding image.");
         return;
       }
       updateUploadImage(reader.result.toString());
     };
+    e.target.value = "";
   };
 
   const clearFile = () => setFile(null);

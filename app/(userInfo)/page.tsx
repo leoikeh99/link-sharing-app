@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import CustomizeLinks from "../components/customizeLinks";
 import { HomeGrid } from "../styles/LayoutStyles";
 import MobilePreview from "../components/MobilePreview";

@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
 import AuthProvider from "./context/AuthProvider";
+import { AlertProvider } from "./context/AlertContext";
+import NextTopLoader from "nextjs-toploader";
 
 const instrument_sans = Instrument_Sans({ subsets: ["latin"] });
 
@@ -19,10 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={instrument_sans.className}>
+        <NextTopLoader color="var(--clr-primary-400)" />
         <main>
-          <AuthProvider>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </AuthProvider>
+          <AlertProvider>
+            <AuthProvider>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </AuthProvider>
+          </AlertProvider>
         </main>
       </body>
     </html>

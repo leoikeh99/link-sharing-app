@@ -6,8 +6,18 @@ export default async function getUserData(id: string) {
   const db = client.db("link-share");
 
   try {
+    if (!id.match(/^[0-9a-fA-F]{24}$/))
+      return {
+        success: false,
+        type: "notFound",
+      };
+
     let user = await db.collection("users").findOne({ _id: new ObjectId(id) });
-    if (!user) return null;
+    if (!user)
+      return {
+        success: false,
+        type: "notFound",
+      };
 
     delete user?.password;
     const userInfo: UserInfo = JSON.parse(JSON.stringify(user));
@@ -16,15 +26,23 @@ export default async function getUserData(id: string) {
       .collection("links")
       .find({ userId: new ObjectId(id) })
       .toArray();
-    if (!userLinks) return null;
+    if (!userLinks)
+      return {
+        success: false,
+        type: "regular",
+      };
 
     const links: Array<UserLink> = JSON.parse(JSON.stringify(userLinks));
 
     return {
+      success: true,
       userInfo,
       links,
     };
   } catch (error) {
-    return null;
+    return {
+      success: false,
+      type: "regular",
+    };
   }
 }

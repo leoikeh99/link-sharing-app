@@ -8,8 +8,18 @@ export default async function PreviewLinks({
 }: {
   params: { id: string };
 }) {
-  let data = await getUserData(params.id);
-  if (!data) throw new Error("Something went wrong try again");
+  let userData = await getUserData(params.id);
+  if (!userData.success || !userData.userInfo || !userData.links) {
+    if (userData.type === "regular")
+      throw new Error("Something went wrong try again");
+    if (userData.type === "notFound") throw new Error("Page not found");
+    return;
+  }
+
+  let data = {
+    userInfo: userData.userInfo,
+    links: userData.links,
+  };
 
   return (
     <div>

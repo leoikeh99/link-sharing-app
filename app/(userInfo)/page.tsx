@@ -10,8 +10,18 @@ import getUserData from "@/lib/getUserData";
 export default async function Home() {
   const session = await getServerSession(options);
 
-  let data = await getUserData(session?.user?.id);
-  if (!data) throw new Error("Something went wrong try again");
+  let userData = await getUserData(session?.user?.id);
+  if (!userData.success || !userData.userInfo || !userData.links) {
+    if (userData.type === "regular")
+      throw new Error("Something went wrong try again");
+    if (userData.type === "notFound") throw new Error("Page not Found");
+    return;
+  }
+
+  let data = {
+    userInfo: userData.userInfo,
+    links: userData.links,
+  };
 
   return (
     <UserProvider data={data}>

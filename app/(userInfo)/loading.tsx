@@ -19,7 +19,7 @@ const Wrapper = styled.section`
   }
 `;
 
-const loading = () => {
+const LoadingBoundary = () => {
   return (
     <Wrapper>
       <Loading type="spin" color="var(--clr-primary-400)" />
@@ -27,4 +27,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default LoadingBoundary;

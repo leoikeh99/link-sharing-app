@@ -77,7 +77,7 @@ const UserProfile = ({
                   "hsla(0, 0%, 10%, 1)"
                 }
                 $bigText={bigText}
-                href="/"
+                href={link.url}
                 target="_blank">
                 <SpaceOut>
                   <FlexGroup $gap="0.5">

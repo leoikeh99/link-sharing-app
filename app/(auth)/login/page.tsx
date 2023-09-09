@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { AuthBox, Question } from "../styles";
+import { AuthBox, Divider, Question } from "../styles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
 import {
   Button,
@@ -14,15 +14,21 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Message, Submit } from "@radix-ui/react-form";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Alert from "@/app/components/Alert";
 import Loading from "react-loading";
+import { SocialLinks } from "@/app/constants";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { FlexGroup } from "@/app/styles/LayoutStyles";
+
+const githubColor = SocialLinks.find((val) => val.id === "github")?.color;
 
 export default function Login() {
   const [details, setDetails] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | false>(false);
+  const session = useSession();
   const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -105,7 +111,7 @@ export default function Login() {
           </FormControlCover>
         </FormField>
         <Submit asChild>
-          <Button disabled={loading}>
+          <Button disabled={loading || session.status === "authenticated"}>
             {!loading ? (
               "Login"
             ) : (
@@ -119,8 +125,17 @@ export default function Login() {
           </Button>
         </Submit>
       </Form>
-      <br />
-      <Button onClick={() => signIn("github")}>Login with Github</Button>
+      <Divider>OR</Divider>
+      <Button
+        $wFull
+        style={{ backgroundColor: githubColor }}
+        onClick={() => signIn("github")}
+        disabled={session.status === "authenticated"}>
+        <FlexGroup $gap="1">
+          <GitHubLogoIcon height={20} width={20} />
+          <span>Continue with Github</span>
+        </FlexGroup>
+      </Button>
       <Question>
         <Text $talign="center">Don’t have an account?</Text>
         <Link href="/register">Create account</Link>

@@ -23,11 +23,11 @@ export default function RootLayout({
       <body className={instrument_sans.className}>
         <NextTopLoader color="var(--clr-primary-400)" />
         <main>
-          <AlertProvider>
-            <AuthProvider>
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            </AuthProvider>
-          </AlertProvider>
+          <StyledComponentsRegistry>
+            <AlertProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </AlertProvider>
+          </StyledComponentsRegistry>
         </main>
       </body>
     </html>

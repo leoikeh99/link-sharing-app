@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { AuthBox, Question } from "../styles";
+import { AuthBox, Divider, Question } from "../styles";
 import { MainHeading, Text } from "@/app/styles/TypographyStyles";
 import {
   Button,
@@ -17,8 +17,13 @@ import { Message, Submit } from "@radix-ui/react-form";
 import Loading from "react-loading";
 import axios from "axios";
 import Alert from "@/app/components/Alert";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { SocialLinks } from "@/app/constants";
+import { FlexGroup } from "@/app/styles/LayoutStyles";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+
+const githubColor = SocialLinks.find((val) => val.id === "github")?.color;
 
 export default function Register() {
   const [details, setDetails] = useState({
@@ -28,6 +33,7 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | false>(false);
+  const session = useSession();
   const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -161,7 +167,7 @@ export default function Register() {
           </Text>
         </FormField>
         <Submit asChild>
-          <Button disabled={loading}>
+          <Button disabled={loading || session.status === "authenticated"}>
             {!loading ? (
               "Create new account"
             ) : (
@@ -175,6 +181,17 @@ export default function Register() {
           </Button>
         </Submit>
       </Form>
+      <Divider>OR</Divider>
+      <Button
+        $wFull
+        style={{ backgroundColor: githubColor }}
+        onClick={() => signIn("github")}
+        disabled={session.status === "authenticated"}>
+        <FlexGroup $gap="1">
+          <GitHubLogoIcon height={20} width={20} />
+          <span>Continue with Github</span>
+        </FlexGroup>
+      </Button>
       <Question>
         <Text $talign="center">Already have an account? </Text>
         <Link href="/login">Login</Link>

@@ -48,3 +48,26 @@ export const Question = styled.div`
     text-decoration: none;
   }
 `;
+
+export const Divider = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: space-betweeen;
+  gap: 1rem;
+  color: var(--clr-text);
+  font-weight: var(--fw-semi-bold);
+  margin-block: 1rem;
+
+  &:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--clr-neutral-300);
+  }
+  &:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--clr-neutral-300);
+  }
+`;

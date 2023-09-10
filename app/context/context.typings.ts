@@ -15,6 +15,10 @@ type UserContextState = {
     clearFile: Function
   ) => void;
   updateUploadImage: (image: string | null) => void;
+  switchLinks: (
+    initialLinkId: string | number,
+    destinationLinkId: string | number
+  ) => void;
 };
 
 type AlertTypes = "success" | "danger" | "info" | "warning";

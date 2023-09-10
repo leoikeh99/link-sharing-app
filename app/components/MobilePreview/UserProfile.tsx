@@ -67,34 +67,36 @@ const UserProfile = ({
         )}
       </UserInfo>
       <Links>
-        {links.map((link) => (
-          <div key={link._id}>
-            {link.platform && (
-              <SocialLink
-                $colorInverse={link.platform === "frontendMentor"}
-                $bg={
-                  SocialLinks.find((val) => val.id === link.platform)?.color ||
-                  "hsla(0, 0%, 10%, 1)"
-                }
-                $bigText={bigText}
-                href={link.url}
-                target="_blank">
-                <SpaceOut>
-                  <FlexGroup $gap="0.5">
-                    <LinkIcon iconKey={link.platform} />
-                    <span>
-                      {
-                        SocialLinks.find((val) => val.id === link.platform)
-                          ?.name
-                      }
-                    </span>
-                  </FlexGroup>
-                  <ArrowRightIcon className="arrow" />
-                </SpaceOut>
-              </SocialLink>
-            )}
-          </div>
-        ))}
+        {links
+          .sort((a, b) => a.order - b.order)
+          .map((link) => (
+            <div key={link._id}>
+              {link.platform && (
+                <SocialLink
+                  $colorInverse={link.platform === "frontendMentor"}
+                  $bg={
+                    SocialLinks.find((val) => val.id === link.platform)
+                      ?.color || "hsla(0, 0%, 10%, 1)"
+                  }
+                  $bigText={bigText}
+                  href={link.url}
+                  target="_blank">
+                  <SpaceOut>
+                    <FlexGroup $gap="0.5">
+                      <LinkIcon iconKey={link.platform} />
+                      <span>
+                        {
+                          SocialLinks.find((val) => val.id === link.platform)
+                            ?.name
+                        }
+                      </span>
+                    </FlexGroup>
+                    <ArrowRightIcon className="arrow" />
+                  </SpaceOut>
+                </SocialLink>
+              )}
+            </div>
+          ))}
         {/* <EmptyLink />
         <EmptyLink />
         <EmptyLink />

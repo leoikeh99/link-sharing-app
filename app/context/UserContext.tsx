@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useContext, createContext } from "react";
 import AlertContext from "./AlertContext";
+import { arrayMove } from "@dnd-kit/sortable";
 
 type Props = {
   children: React.ReactNode;
@@ -30,6 +31,7 @@ const contextDefaultValues: UserContextState = {
   removeLink: () => {},
   updateProfile: () => {},
   updateUploadImage: () => {},
+  switchLinks: () => {},
 };
 
 const UserContext = createContext<UserContextState>(contextDefaultValues);
@@ -59,6 +61,7 @@ export const UserProvider = ({ data, children }: Props) => {
     ]);
 
   const removeLink = (id: string) => {
+    console.log("yes");
     const order = links.find((values) => values._id === id)?.order;
     setLinks((_links) =>
       _links
@@ -178,6 +181,35 @@ export const UserProvider = ({ data, children }: Props) => {
     );
   };
 
+  const switchLinks = (
+    initialLinkId: string | number,
+    destinationLinkId: string | number
+  ) => {
+    setLinks((links) => {
+      const initialLinkIndex = links.findIndex(
+        (val) => val._id === initialLinkId
+      );
+      const destinationLinkIndex = links.findIndex(
+        (val) => val._id === destinationLinkId
+      );
+
+      const newArray = arrayMove(links, initialLinkIndex, destinationLinkIndex);
+
+      return newArray.map((val) =>
+        val.new
+          ? {
+              ...val,
+              order: newArray.findIndex((_val) => _val._id === val._id) + 1,
+            }
+          : {
+              ...val,
+              order: newArray.findIndex((_val) => _val._id === val._id) + 1,
+              updated: true,
+            }
+      );
+    });
+  };
+
   const updateInfo = (name: string, value: string) =>
     setUserInfo((info) => {
       return { ...info, [name]: value };
@@ -199,6 +231,7 @@ export const UserProvider = ({ data, children }: Props) => {
         changePlatform,
         updateInfo,
         updateUrl,
+        switchLinks,
         removeLink,
         updateProfile,
       }}>

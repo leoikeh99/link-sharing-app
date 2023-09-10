@@ -16,6 +16,8 @@ import { Text } from "@/app/styles/TypographyStyles";
 import { styled } from "styled-components";
 import UserContext from "@/app/context/UserContext";
 import { validateUserProfileUrl } from "@/app/utils";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const Wrapper = styled.div`
   padding: 1.25rem;
@@ -33,20 +35,37 @@ const RemoveBtn = styled.button`
   cursor: pointer;
 `;
 
+const DragHandle = styled.button`
+  background: none;
+  border: none;
+  cursor: grab;
+`;
+
 const AddedLink = ({ link }: { link: UserLink }) => {
   const { links, updateUrl, removeLink } = useContext(UserContext);
   const url = links.find((values) => values._id === link._id)?.url;
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: link._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     updateUrl(link._id, e.target.value);
 
   return (
-    <Wrapper>
+    <Wrapper ref={setNodeRef} style={style}>
       <SpaceOut>
-        <FlexGroup $gap="0.5">
-          <DnDIcon /> <Text $weight="bold">Link #{link.order}</Text>
-        </FlexGroup>
-        <RemoveBtn onClick={() => removeLink(link._id)}>Remove</RemoveBtn>
+        <DragHandle type="button" {...attributes} {...listeners}>
+          <FlexGroup $gap="0.5">
+            <DnDIcon /> <Text $weight="bold">Link #{link.order}</Text>
+          </FlexGroup>
+        </DragHandle>
+        <RemoveBtn onClick={() => removeLink(link._id)} type="button">
+          Remove
+        </RemoveBtn>
       </SpaceOut>
       <FormField name="selectLink">
         <Label $mt="0.75">Platform</Label>

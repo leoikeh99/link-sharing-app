@@ -5,6 +5,21 @@ import LinksHeaderImage from "@/assets/images/illustration-empty.svg";
 import { SubHeading, Text } from "@/app/styles/TypographyStyles";
 import AddedLink from "./AddedLink";
 import UserContext from "@/app/context/UserContext";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 type Props = {};
 
@@ -80,17 +95,45 @@ const NoLinks = () => (
 );
 
 const Links = (props: Props) => {
-  const { links } = useContext(UserContext);
+  const { links, switchLinks } = useContext(UserContext);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
   return (
     <>
       {/* <NoLinks /> */}
       <LinksWrapper>
-        {links.map((link) => (
-          <AddedLink key={link._id} link={link} />
-        ))}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}>
+          <SortableContext
+            items={links.map((val) => val._id)}
+            strategy={verticalListSortingStrategy}>
+            {links
+              .sort((a, b) => a.order - b.order)
+              .map((link) => (
+                <AddedLink key={link._id} link={link} />
+              ))}
+          </SortableContext>
+        </DndContext>
       </LinksWrapper>
     </>
   );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      switchLinks(active.id, over.id);
+    }
+  }
 };
 
 export default Links;

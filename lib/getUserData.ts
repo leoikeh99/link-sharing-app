@@ -2,10 +2,10 @@ import { ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 
 export default async function getUserData(id?: string) {
-  const client = await clientPromise;
-  const db = client.db("link-share");
-
   try {
+    const client = await clientPromise;
+    const db = client.db("link-share");
+
     if (!id || !id.match(/^[0-9a-fA-F]{24}$/))
       return {
         success: false,

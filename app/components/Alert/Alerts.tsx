@@ -32,9 +32,13 @@ const Wrapper = styled.ul`
   position: fixed;
   bottom: 2rem;
   left: 50%;
-  max-width: 30rem;
+  max-width: 97%;
   transform: translateX(-50%);
   z-index: 3;
+
+  @media (min-width: 28.125em) {
+    max-width: 30rem;
+  }
 `;
 
 const Alert = styled.li<{ type: AlertTypes }>`
@@ -44,14 +48,19 @@ const Alert = styled.li<{ type: AlertTypes }>`
   padding: 1rem 1.5rem;
   border-radius: 0.75rem;
   background-color: ${({ type }) => colors[type]};
+  text-align: center;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 0.5rem;
   max-width: fit-content;
   margin-inline: auto;
   margin-bottom: 0.5rem;
   animation: 2.97s ${popIn} ease-out forwards;
+
+  svg {
+    min-width: 22px;
+  }
 `;
 
 const Alerts = () => {

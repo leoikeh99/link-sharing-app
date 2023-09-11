@@ -14,7 +14,7 @@ import { SocialLinks } from "@/app/constants";
 import UserContext from "@/app/context/UserContext";
 
 const Select = ({ link }: { link: UserLink }) => {
-  const { changePlatform } = useContext(UserContext);
+  const { changePlatform, links } = useContext(UserContext);
 
   const onChange = (value: Socials) => changePlatform(link._id, value);
 
@@ -36,7 +36,12 @@ const Select = ({ link }: { link: UserLink }) => {
           <RadixSelect.Viewport>
             <RadixSelect.Group>
               {SocialLinks.map((link) => (
-                <SelectItem value={link.id} key={link.id}>
+                <SelectItem
+                  value={link.id}
+                  key={link.id}
+                  disabled={
+                    links.find((val) => val.platform === link.id) ? true : false
+                  }>
                   <FlexGroup $gap="0.75">
                     <LinkIcon iconKey={link.id} />
                     <span>{link.name}</span>

@@ -21,7 +21,13 @@ type UserContextState = {
   ) => void;
 };
 
-type AlertTypes = "success" | "danger" | "info" | "warning";
+type AlertTypes =
+  | "success"
+  | "danger"
+  | "info"
+  | "warning"
+  | "save"
+  | "clipboard";
 
 type Alert = {
   id: string;

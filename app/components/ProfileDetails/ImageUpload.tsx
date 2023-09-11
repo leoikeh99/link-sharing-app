@@ -78,6 +78,10 @@ const UploadBtn = styled.div<{ $image: string | null }>`
   svg path {
     fill: ${({ $image }) => $image && "var(--clr-neutral-100)"};
   }
+
+  @media (max-width: 20.688em) {
+    min-width: 100%;
+  }
 `;
 
 const FileInput = styled.input`

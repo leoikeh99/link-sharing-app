@@ -4,6 +4,7 @@ import SaveIcon from "@/assets/images/icon-changes-saved.svg";
 import AlertContext from "@/app/context/AlertContext";
 import {
   CheckCircledIcon,
+  ClipboardCopyIcon,
   CrossCircledIcon,
   ExclamationTriangleIcon,
   InfoCircledIcon,
@@ -83,11 +84,15 @@ export default Alerts;
 const colors = {
   danger: "#ef5350",
   success: "#333333",
+  save: "#333333",
+  clipboard: "#333333",
   warning: "#efcc00",
   info: "#008b8b",
 };
 
 const icons = {
+  save: <SaveIcon />,
+  clipboard: <ClipboardCopyIcon height={22} width={22} />,
   success: <CheckCircledIcon height={22} width={22} />,
   danger: <CrossCircledIcon height={22} width={22} />,
   info: <InfoCircledIcon height={22} width={22} />,

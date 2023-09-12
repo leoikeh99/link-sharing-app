@@ -41,6 +41,13 @@ export const HomeGrid = styled.div`
 
 export const HomeFormsTopWrapper = styled.div`
   padding: 1.5rem;
+  position: relative;
+
+  .logout-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 
   @media (min-width: 33.75em) {
     padding: 2.5rem;

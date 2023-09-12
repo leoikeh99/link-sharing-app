@@ -45,7 +45,9 @@ const UserProfile = ({
               : image
               ? image
               : firstName || lastName
-              ? `https://avatars.dicebear.com/api/initials/${firstName} ${lastName}.svg`
+              ? `https://avatars.dicebear.com/api/initials/${firstName || ""} ${
+                  lastName || ""
+                }.svg`
               : "https://avatars.dicebear.com/api/identicon/random.svg"
           }
           width={96}

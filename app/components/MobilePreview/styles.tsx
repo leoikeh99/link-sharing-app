@@ -7,7 +7,7 @@ export const Phone = styled.div`
   min-width: 19.2rem;
   min-height: 39.4rem;
   padding: 2.5rem 0.69rem 0.62rem 0.69rem;
-  background-image: url(assets/images/illustration-phone-mockup.svg);
+  background-image: url(/assets/images/illustration-phone-mockup.svg);
   background-repeat: no-repeat;
   background-size: 100%;
 `;

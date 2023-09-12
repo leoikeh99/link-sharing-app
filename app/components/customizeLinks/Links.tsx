@@ -13,6 +13,8 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  TouchSensor,
+  MouseSensor,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -27,6 +29,7 @@ const LinksWrapper = styled.div`
   height: 30.5rem;
   overflow-y: auto;
   margin-top: 1.5rem;
+  // scroll-behavior: smooth;
 
   &:hover::-webkit-scrollbar-thumb {
     background: #888;
@@ -97,7 +100,8 @@ const NoLinks = () => (
 const Links = (props: Props) => {
   const { links, switchLinks } = useContext(UserContext);
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -105,23 +109,26 @@ const Links = (props: Props) => {
 
   return (
     <>
-      {/* <NoLinks /> */}
-      <LinksWrapper>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}>
-          <SortableContext
-            items={links.map((val) => val._id)}
-            strategy={verticalListSortingStrategy}>
-            {links
-              .sort((a, b) => a.order - b.order)
-              .map((link) => (
-                <AddedLink key={link._id} link={link} />
-              ))}
-          </SortableContext>
-        </DndContext>
-      </LinksWrapper>
+      {links.length === 0 ? (
+        <NoLinks />
+      ) : (
+        <LinksWrapper id="links-wrapper">
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={links.map((val) => val._id)}
+              strategy={verticalListSortingStrategy}>
+              {links
+                .sort((a, b) => a.order - b.order)
+                .map((link) => (
+                  <AddedLink key={link._id} link={link} />
+                ))}
+            </SortableContext>
+          </DndContext>
+        </LinksWrapper>
+      )}
     </>
   );
 

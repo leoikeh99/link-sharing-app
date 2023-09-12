@@ -10,11 +10,12 @@ import React, { useContext, useState } from "react";
 import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 import ProfileInfo from "./ProfileInfo";
-import { Button } from "@/app/styles/FormStyles";
+import { Button, LogoutBtn } from "@/app/styles/FormStyles";
 import UserContext from "@/app/context/UserContext";
 import Loading from "react-loading";
 import { bytesToMb, isImageTypeAllowed } from "@/app/utils";
 import AlertContext from "@/app/context/AlertContext";
+import { signOut } from "next-auth/react";
 
 const Form = styled(Root)`
   background-color: var(--bg-sub);
@@ -77,6 +78,12 @@ const ProfileDetails = () => {
   return (
     <Form onSubmit={submitForm}>
       <HomeFormsTopWrapper>
+        <LogoutBtn
+          className="logout-btn"
+          type="button"
+          onClick={() => signOut()}>
+          Logout
+        </LogoutBtn>
         <MainHeading $mb="1">Profile Details</MainHeading>
         <Text $mb="2.5">
           Add your details to create a personal touch to your profile.

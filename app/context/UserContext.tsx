@@ -1,7 +1,13 @@
 "use client";
-import React, { useState, useContext, createContext } from "react";
+import React, {
+  useState,
+  useContext,
+  createContext,
+  useTransition,
+} from "react";
 import AlertContext from "./AlertContext";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -22,7 +28,7 @@ const contextDefaultValues: UserContextState = {
   uploadImage: null,
   links: [],
   loading: false,
-  removedLinks: null,
+  removedLinks: [],
   addLink: () => {},
   changePlatform: () => {},
   saveLinks: () => {},
@@ -46,6 +52,8 @@ export const UserProvider = ({ data, children }: Props) => {
   const [uploadImage, setUploadImage] = useState(
     contextDefaultValues.uploadImage
   );
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const { createAlert } = useContext(AlertContext);
 
   const addLink = () =>
@@ -61,7 +69,6 @@ export const UserProvider = ({ data, children }: Props) => {
     ]);
 
   const removeLink = (id: string) => {
-    console.log("yes");
     const order = links.find((values) => values._id === id)?.order;
     setLinks((_links) =>
       _links
@@ -84,7 +91,7 @@ export const UserProvider = ({ data, children }: Props) => {
     setLoading("LINKS");
     const data = {
       links: links.filter((values) => values.new || values.updated),
-      removedLinks,
+      removedLinks: removedLinks?.length === 0 ? null : removedLinks,
     };
 
     await fetch("/api/users/links", {
@@ -95,12 +102,17 @@ export const UserProvider = ({ data, children }: Props) => {
       const data = await res.json();
       if (res.ok) {
         setLinks(data.links);
+        setRemovedLinks([]);
         createAlert("success", data.message);
         return;
       }
       createAlert("danger", data.message);
     });
     setLoading(false);
+
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   const updateProfile = async (
@@ -156,6 +168,10 @@ export const UserProvider = ({ data, children }: Props) => {
     });
 
     setLoading(false);
+
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   const changePlatform = (id: string, platform: Socials) =>

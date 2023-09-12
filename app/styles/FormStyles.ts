@@ -238,3 +238,14 @@ export const ScrollDownButton = styled(RadixSelect.ScrollDownButton)`
   display: flex;
   justify-content: center;
 `;
+
+export const LogoutBtn = styled.button`
+  padding: 0.3rem 0.5rem;
+  border: 0;
+  background-color: #ef5350;
+  color: #fff;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semi-bold);
+  border-radius: 0.5rem;
+  cursor: pointer;
+`;

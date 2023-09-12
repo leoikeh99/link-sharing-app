@@ -21,14 +21,27 @@ const Form = styled(Root)`
 `;
 
 const CustomizeLinks = (props: Props) => {
-  const { links, loading, addLink, saveLinks } = useContext(UserContext);
+  const { links, loading, removedLinks, addLink, saveLinks } =
+    useContext(UserContext);
 
   const submitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     saveLinks();
   };
 
-  const changes = links.some((values) => values.new || values.updated);
+  const addNewLink = () => {
+    addLink();
+    setTimeout(() => {
+      let linkWrapperElem = document.getElementById("links-wrapper");
+      if (linkWrapperElem)
+        linkWrapperElem.scrollTop = linkWrapperElem.scrollHeight;
+    }, 100);
+  };
+
+  const changes =
+    links.some((values) => values.new || values.updated) ||
+    removedLinks?.length !== 0;
+
   return (
     <Form onSubmit={submitForm}>
       <HomeFormsTopWrapper>
@@ -37,7 +50,7 @@ const CustomizeLinks = (props: Props) => {
           Add/edit/remove links below and then share all your profiles with the
           world!
         </Text>
-        <Button $variant="outlined" $wFull type="button" onClick={addLink}>
+        <Button $variant="outlined" $wFull type="button" onClick={addNewLink}>
           + Add new link
         </Button>
         <Links />

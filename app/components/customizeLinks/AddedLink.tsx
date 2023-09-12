@@ -39,6 +39,7 @@ const DragHandle = styled.button`
   background: none;
   border: none;
   cursor: grab;
+  touch-action: manipulation;
 `;
 
 const AddedLink = ({ link }: { link: UserLink }) => {

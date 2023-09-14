@@ -31,8 +31,8 @@ Users should be able to:
 ### Screenshot
 
 ![Customize Links Page](./screenshots/1.png)
-![Update Profile Page](./screenshots/1.png)
-![Preview Links Page](./screenshots/1.png)
+![Update Profile Page](./screenshots/2.png)
+![Preview Links Page](./screenshots/3.png)
 
 ### Links
 

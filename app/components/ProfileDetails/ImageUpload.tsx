@@ -50,6 +50,10 @@ const UploadBtn = styled.div<{ $image: string | null }>`
     align-items: center;
   }
 
+  &:focus-within {
+    outline: 3px solid var(--clr-primary-400);
+  }
+
   ${({ $image }) =>
     $image &&
     `&:before {
@@ -105,7 +109,7 @@ const ImageUpload = ({ onChange }: Props) => {
       <ProfileGridFlow $initialGap="1">
         <Text>Profile picture</Text>
         <UploadContainer>
-          <UploadBtn $image={uploadImage || null}>
+          <UploadBtn $image={uploadImage || image || null}>
             <span>
               <FileInput
                 type="file"

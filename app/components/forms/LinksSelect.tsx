@@ -75,5 +75,6 @@ const SelectItem = React.forwardRef(
     );
   }
 );
+SelectItem.displayName = "SelectItem";
 
 export default Select;

@@ -90,7 +90,7 @@ const AddedLink = ({ link }: { link: UserLink }) => {
             placeholder="e.g. https://www.github.com/johnappleseed"
           />
           <Message match="valueMissing" asChild>
-            <FormMessage>Can't be empty</FormMessage>
+            <FormMessage>Can&apos;t be empty</FormMessage>
           </Message>
           <Message match={() => !link.platform}>
             <FormMessage>Select Platform</FormMessage>

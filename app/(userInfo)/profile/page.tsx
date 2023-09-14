@@ -4,8 +4,14 @@ import ProfileDetails from "@/app/components/ProfileDetails";
 import { UserProvider } from "@/app/context/UserContext";
 import { HomeGrid } from "@/app/styles/LayoutStyles";
 import getUserData from "@/lib/getUserData";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Dev Links | Update Profile",
+  description: "Update your Dev Links profile",
+};
 
 export default async function Profile() {
   const session = await getServerSession(options);

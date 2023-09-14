@@ -21,8 +21,14 @@ import Loading from "react-loading";
 import { SocialLinks } from "@/app/constants";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FlexGroup } from "@/app/styles/LayoutStyles";
+import { Metadata } from "next";
 
 const githubColor = SocialLinks.find((val) => val.id === "github")?.color;
+
+export const metadata: Metadata = {
+  title: "Dev Links | Login",
+  description: "Login to Dev Links",
+};
 
 export default function Login() {
   const [details, setDetails] = useState({ email: "", password: "" });
@@ -81,7 +87,7 @@ export default function Login() {
               onChange={onChange}
             />
             <Message match="valueMissing" asChild>
-              <FormMessage>Can't be empty</FormMessage>
+              <FormMessage>Can&apos;t be empty</FormMessage>
             </Message>
             <Message match="typeMismatch" asChild>
               <FormMessage>Invalid email</FormMessage>

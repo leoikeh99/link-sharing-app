@@ -6,6 +6,12 @@ import { UserProvider } from "../context/UserContext";
 import { getServerSession } from "next-auth";
 import { options } from "../api/auth/[...nextauth]/authOptions";
 import getUserData from "@/lib/getUserData";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dev Links | Customize Links",
+  description: "Customize all your links",
+};
 
 export default async function Home() {
   const session = await getServerSession(options);

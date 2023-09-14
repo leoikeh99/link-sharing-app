@@ -58,7 +58,7 @@ const ProfileInfo = (props: Props) => {
               placeholder="e.g. Ben"
             />
             <Message match="valueMissing" asChild>
-              <FormMessage>Can't be empty</FormMessage>
+              <FormMessage>Can&apos;t be empty</FormMessage>
             </Message>
           </FormControlCover>
         </ProfileGridFlow>
@@ -76,7 +76,7 @@ const ProfileInfo = (props: Props) => {
               placeholder="e.g. Wright"
             />
             <Message match="valueMissing" asChild>
-              <FormMessage>Can't be empty</FormMessage>
+              <FormMessage>Can&apos;t be empty</FormMessage>
             </Message>
           </FormControlCover>
         </ProfileGridFlow>
@@ -94,7 +94,7 @@ const ProfileInfo = (props: Props) => {
               placeholder="e.g. abc@example.com"
             />
             <Message match="valueMissing" asChild>
-              <FormMessage>Can't be empty</FormMessage>
+              <FormMessage>Can&apos;t be empty</FormMessage>
             </Message>
           </FormControlCover>
         </ProfileGridFlow>

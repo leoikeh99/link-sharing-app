@@ -94,7 +94,7 @@ export default function Register() {
               placeholder="e.g. alex@email.com"
             />
             <Message match="valueMissing" asChild>
-              <FormMessage>Can't be empty</FormMessage>
+              <FormMessage>Can&apos;t be empty</FormMessage>
             </Message>
             <Message match="typeMismatch" asChild>
               <FormMessage>Invalid email</FormMessage>

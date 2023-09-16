@@ -57,6 +57,11 @@ export default function Login() {
     setLoading(false);
   };
 
+  const btnDisabled =
+    loading ||
+    session.status === "loading" ||
+    session.status === "authenticated";
+
   return (
     <AuthBox>
       <MainHeading $mb="0.5">Login</MainHeading>
@@ -117,7 +122,7 @@ export default function Login() {
           </FormControlCover>
         </FormField>
         <Submit asChild>
-          <Button disabled={loading || session.status === "authenticated"}>
+          <Button disabled={btnDisabled}>
             {!loading ? (
               "Login"
             ) : (
@@ -136,7 +141,7 @@ export default function Login() {
         $wFull
         style={{ backgroundColor: githubColor }}
         onClick={() => signIn("github")}
-        disabled={session.status === "authenticated"}>
+        disabled={btnDisabled}>
         <FlexGroup $gap="1">
           <GitHubLogoIcon height={20} width={20} />
           <span>Continue with Github</span>

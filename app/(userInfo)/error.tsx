@@ -25,6 +25,7 @@ const InnerContainer = styled.div`
   display: grid;
   justify-items: center;
   text-align: center;
+  margin-top: 20px;
 
   h1 {
     line-height: 100%;

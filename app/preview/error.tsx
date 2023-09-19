@@ -32,10 +32,17 @@ const InnerContainer = styled.div`
   display: grid;
   justify-items: center;
   text-align: center;
+  margin-top: -100px;
+  padding-inline: 20px;
 
   h1 {
     line-height: 100%;
     margin-bottom: 2rem;
+  }
+
+  @media (min-width: 37.5em) {
+    padding-inline: 0;
+    margin-top: 0;
   }
 `;
 
@@ -54,7 +61,7 @@ export default function Error({
         <MainHeading>
           {error.message === "NEXT_NOT_FOUND"
             ? "Page not found"
-            : "Something went wrong or URL is invalid"}
+            : "Something went wrong or Invalid url"}
         </MainHeading>
         {error.message !== "NEXT_NOT_FOUND" && (
           <Button onClick={() => reset()} style={{ marginBottom: "5px" }}>

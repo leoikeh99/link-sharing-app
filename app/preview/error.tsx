@@ -43,7 +43,7 @@ export default function Error({
   error,
   reset,
 }: {
-  error: Error;
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   const session = useSession();
@@ -51,9 +51,15 @@ export default function Error({
     <Wrapper>
       <InnerContainer>
         <p style={{ fontSize: "4rem", marginBottom: "1rem" }}>😕</p>
-        <MainHeading>{error.message}</MainHeading>
-        {error.message !== "Page not found" && (
-          <Button onClick={() => reset()}>Try again</Button>
+        <MainHeading>
+          {error.message === "NEXT_NOT_FOUND"
+            ? "Page not found"
+            : "Something went wrong"}
+        </MainHeading>
+        {error.message !== "NEXT_NOT_FOUND" && (
+          <Button onClick={() => reset()} style={{ marginBottom: "5px" }}>
+            Try again
+          </Button>
         )}
         {session && (
           <BtnLink href="/" $variant="outlined">

@@ -43,8 +43,14 @@ export default function Error({
     <Wrapper>
       <InnerContainer>
         <p style={{ fontSize: "4rem" }}>😕</p>
-        <MainHeading>{error.message}</MainHeading>
-        <Button onClick={() => reset()}>Try again</Button>
+        <MainHeading>
+          {error.message === "NEXT_NOT_FOUND"
+            ? "Page not found"
+            : "Something went wrong"}
+        </MainHeading>
+        {error.message !== "NEXT_NOT_FOUND" && (
+          <Button onClick={() => reset()}>Try again</Button>
+        )}
       </InnerContainer>
     </Wrapper>
   );

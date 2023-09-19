@@ -5,6 +5,7 @@ import getUserData from "@/lib/getUserData";
 import { Metadata, ResolvingMetadata } from "next";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { id: string };
@@ -48,7 +49,7 @@ export default async function PreviewLinks({
   if (!userData.success || !userData.userInfo || !userData.links) {
     if (userData.type === "regular")
       throw new Error("Something went wrong try again");
-    if (userData.type === "notFound") throw new Error("Page not Found");
+    if (userData.type === "notFound") notFound();
     return;
   }
 

@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { options } from "../api/auth/[...nextauth]/authOptions";
 import getUserData from "@/lib/getUserData";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Dev Links | Customize Links",
@@ -20,7 +21,7 @@ export default async function Home() {
   if (!userData.success || !userData.userInfo || !userData.links) {
     if (userData.type === "regular")
       throw new Error("Something went wrong try again");
-    if (userData.type === "notFound") throw new Error("Page not Found");
+    if (userData.type === "notFound") notFound();
     return;
   }
 

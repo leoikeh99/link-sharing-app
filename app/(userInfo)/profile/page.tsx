@@ -6,6 +6,7 @@ import { HomeGrid } from "@/app/styles/LayoutStyles";
 import getUserData from "@/lib/getUserData";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default async function Profile() {
   if (!userData.success || !userData.userInfo || !userData.links) {
     if (userData.type === "regular")
       throw new Error("Something went wrong try again");
-    if (userData.type === "notFound") throw new Error("Page not Found");
+    if (userData.type === "notFound") notFound();
     return;
   }
 

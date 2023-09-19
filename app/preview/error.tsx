@@ -54,7 +54,7 @@ export default function Error({
         <MainHeading>
           {error.message === "NEXT_NOT_FOUND"
             ? "Page not found"
-            : "Something went wrong"}
+            : "Something went wrong or URL is invalid"}
         </MainHeading>
         {error.message !== "NEXT_NOT_FOUND" && (
           <Button onClick={() => reset()} style={{ marginBottom: "5px" }}>

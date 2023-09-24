@@ -37,7 +37,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [https://github.com/leoikeh99/link-sharing-app](https://github.com/leoikeh99/link-sharing-app)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [https://link-sharing-app-three.vercel.app](https://link-sharing-app-three.vercel.app)
 
 ## My process
 

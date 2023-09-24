@@ -57,17 +57,16 @@ export default function Error({
   return (
     <Wrapper>
       <InnerContainer>
-        <p style={{ fontSize: "4rem", marginBottom: "1rem" }}>😕</p>
+        <p style={{ fontSize: "4rem" }}>😕</p>
         <MainHeading>
-          {error.message === "NEXT_NOT_FOUND"
-            ? "Page not found"
-            : "Something went wrong or Invalid url"}
+          Something went wrong, check the url and try again
         </MainHeading>
-        {error.message !== "NEXT_NOT_FOUND" && (
-          <Button onClick={() => reset()} style={{ marginBottom: "5px" }}>
-            Try again
-          </Button>
-        )}
+        <Button
+          onClick={() => window.location.reload()}
+          style={{ marginBottom: "5px" }}
+        >
+          Reload
+        </Button>
         {session && (
           <BtnLink href="/" $variant="outlined">
             Back to Editor

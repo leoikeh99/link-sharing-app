@@ -39,6 +39,7 @@ const UserProfile = ({
     <Wrapper>
       <UserInfo>
         <Avatar
+          unoptimized
           src={
             uploadImage
               ? uploadImage
@@ -82,7 +83,8 @@ const UserProfile = ({
                   }
                   $bigText={bigText}
                   href={link.url}
-                  target="_blank">
+                  target="_blank"
+                >
                   <SpaceOut>
                     <FlexGroup $gap="0.5">
                       <LinkIcon iconKey={link.platform} />
@@ -99,11 +101,6 @@ const UserProfile = ({
               )}
             </div>
           ))}
-        {/* <EmptyLink />
-        <EmptyLink />
-        <EmptyLink />
-        <EmptyLink />
-        <EmptyLink /> */}
       </Links>
     </Wrapper>
   );
